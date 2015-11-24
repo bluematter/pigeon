@@ -16,7 +16,6 @@ var Message = require('./models/Message');
 var Room = require('./models/Room');
 
 // Other libs
-var PHPUnserialize = require('php-unserialize');
 var url = require('url');
 var swearjar = require('swearjar');
 var _ = require('underscore')._;
@@ -26,8 +25,7 @@ var bformat = require('bunyan-format');
 var formatOut = bformat({ outputMode: 'short' });
 var logger = bunyan.createLogger({
     name: 'pigeon sockets',
-    stream: formatOut, 
-    level: 'debug'
+    stream: formatOut
 });
 
 // Rate limit algorithm vars
@@ -68,7 +66,7 @@ function Sockets(server, redis, redisSessionClient) {
     var sockets = [];
     var functions = {};
 
-    var room_names = ['users', 'pc-starcraft_2', 'pc-smite', 'xboxone-smite', 'pc-league_of_legends'];
+    var room_names = ['users', 'warriors'];
 
     _.each(room_names, function (room_name) {
         var room = new Room(room_name);
@@ -78,39 +76,12 @@ function Sockets(server, redis, redisSessionClient) {
     // authorize to see who the user is, relies on proper cookies
     var authentication = function (handshake, callback) {
         
-        return callback(null, {'username': 'JohnBoy'});
+        var cookies = cookie.parse(handshake.headers.cookie);
+        handshake.headers.pigeon = {
+            user: {username: cookies.username}
+        };
 
-        // if (handshake.headers.cookie) {
-
-        //     // parse the user cookie
-        //     var cookies = cookie.parse(handshake.headers.cookie);
-        //     //console.log("Cookies are: ");
-        //     //console.log(cookies);
-        //     if (cookies['PHPSESSID']) {
-
-        //         // get the user session data from the session store
-        //         var sid = cookieParser.signedCookie(cookies['PHPSESSID'], secrets.sessionSecret);
-        //         redisSessionClient.get('xy_gaming:' + sid, function (err, session) {
-        //             if (err || !session) {
-        //                 return callback('Error retrieving session!', false);
-        //             }
-        //             // parse the PHP session to a JSON object
-        //             var serializedSession = PHPUnserialize.unserializeSession(session);
-        //             var username = serializedSession._sf2_attributes.username;
-        //             // pass the users session information to the socket
-        //             handshake.headers.xygaming = {
-        //                 user: {username: username}
-        //             };
-        //             return callback(null, session);
-        //         });
-
-        //     }
-
-        // } else {
-        //     // there was no cookie
-        //     console.log('No cookie transmitted.');
-        //     return callback('No cookie transmitted.', false);
-        // }
+        return callback(null, {});
 
     };
 
@@ -131,11 +102,9 @@ function Sockets(server, redis, redisSessionClient) {
     });
 
     socket_server_obj.setTestAuthentication = function() {
-        console.log('Setting test authentication');
+        logger.info('Setting test authentication');
         functions.authentication = testAuthentication;
     };
-
-    //setTestAuthentication(w);
 
     // pub/sub adapter
     io.adapter(redisIo({
@@ -147,12 +116,12 @@ function Sockets(server, redis, redisSessionClient) {
     
     io.sockets.on('connection', function (socket) {
         
-
+        logger.info('119:', 'Username via cookie: ', socket.handshake.headers.pigeon.user.username);
+        
         // online tracking with redis
         var userStatus = JSON.stringify({"online": true, "socketId": socket.id});
-        redisSessionClient.set("online:"+socket.handshake.headers.username, userStatus);
-        logger.info('Passed socket authentication', socket.handshake.headers.username);
-        
+        redisSessionClient.set("online:"+socket.handshake.headers.pigeon.user.username, userStatus);
+
         // when a user connects announce to friends
         socket.on("im online", function (data) {
             if(data.myFriends != undefined) {
@@ -161,20 +130,18 @@ function Sockets(server, redis, redisSessionClient) {
                 }
             }
         });
+        
+        // Temporary way to update the users list
+        io.emit("new user connected", {whoConnected: socket.handshake.headers.pigeon.user.username})
 
         // store the users & socket.id into objects
-        users[socket.handshake.headers.username] = socket.id;
+        users[socket.handshake.headers.pigeon.user.username] = socket.id;
+
         // track connected
-        connected[socket.handshake.headers.username] = true;
-        people[socket.id] = {"name": socket.handshake.headers.username, "inroom": null};
+        connected[socket.handshake.headers.pigeon.user.username] = true;
+        people[socket.id] = {"name": socket.handshake.headers.pigeon.user.username, "inroom": null};
 
-        logger.debug("Connected, users now:");
-        logger.debug(users);
-        logger.debug("People now:");
-        logger.debug(people);
-
-        var handshakeData = socket.handshake.headers;
-        var nickname = handshakeData.username;
+        var nickname = socket.handshake.headers.pigeon.user.username;
         var messageStack = [];
 
         socket.on("joinRoom", function (id) {
@@ -239,7 +206,6 @@ function Sockets(server, redis, redisSessionClient) {
 
                 // check if messages are being spammed (must disable socket from specific chat module room)
                 if(socket.roomDisabled) {
-                    console.log('Message Fail');
                     socket.emit('room suspension message', {message: 'You are suspended for a short time...', class: 'color--red'});
                     clearTimeout(timeout);
                     timeout = setTimeout(function () {
@@ -248,20 +214,20 @@ function Sockets(server, redis, redisSessionClient) {
                     }, 10000);
                 } else {
                     if (rateLimit()) {
-                        console.log('Message OK');
+                        logger.info('Message OK');
                         // save the message inside mongodb
                         var newMessage = new Message(message);
                         newMessage.save(function(err, messageDocument) {
                             if(err)
-                                console.log('failed to insert the message');
-                            console.log('successfully saved message: ' + messageDocument._id);
+                                logger.warn('failed to insert the message');
+                            logger.info('successfully saved message: ' + messageDocument._id);
                             // emit the message to the room
                             io.sockets.in(socket.room).emit('new roomMessage', message);
                         });
                     } else {
                         if (socket.roomDisabled) {
                         } else {
-                            console.log('Message Fail');
+                            logger.warn('Message Fail');
                             socket.roomDisabled = true;
                             socket.emit('room suspension message', {message: 'You are suspended for a short time...', class: 'color--red'});
                             timeout = setTimeout(function () {
@@ -288,12 +254,11 @@ function Sockets(server, redis, redisSessionClient) {
                 // generate a message object
                 var message = {
                     message_date: Date.now(),
-                    nickname: nickname,
+                    nickname: data.myName,
                     message: clearProfanity(data.message),
                     timeStamp: data.timeStamp,
                     chatID: chatID
                 };
-
 
                 // check if messages are being spammed
                 if(socket.directDisabled) {
@@ -305,16 +270,17 @@ function Sockets(server, redis, redisSessionClient) {
                     }, 10000);
                 } else {
                     if (rateLimit()) {
-                        console.log('Message OK');
+                        logger.info('Message OK');
                         // check if the intended user exists TODO: need this to go both ways
-                        console.log('(User name}: '+nickname+' (User ID): '+socket.id+' chatting with (User name): '+chattingWith+' (User ID): '+ users[chattingWith]); 
+                        logger.info('(User name): '+nickname+' (User ID): '+socket.id+' chatting with (User name): '+chattingWith+' (User ID): '+ users[chattingWith]); 
                         // save the message inside mongodb
                         var newMessage = new Message(message);
                         newMessage.save(function(err, messageDocument) {
                             if(err)
-                                console.log('failed to insert the message');
-                                console.log('successfully saved message: ' + messageDocument._id);
+                                logger.info('failed to insert the message');
+                                logger.info('successfully saved message: ' + messageDocument._id);
                             if(users[chattingWith]) {
+                                logger.info('The message is about to emit to '+ users[chattingWith]);
                                 io.to(users[chattingWith]).emit('new oneOnOneMessage', {message: clearProfanity(data.message), nickname: nickname, chatID: chatID });
                             }
                             socket.emit('new oneOnOneMessage', {message: clearProfanity(data.message), nickname: nickname, chatID: chatID });
@@ -350,7 +316,7 @@ function Sockets(server, redis, redisSessionClient) {
             connected[socket.handshake.headers.username] = false;
             setTimeout(function () {
                 if(connected[socket.handshake.headers.username] === false) {
-                    console.log('its been 10 seconds user is disconnected');
+                    logger.info('its been 10 seconds user is disconnected');
                     redisSessionClient.set('online:'+socket.handshake.headers.username, '{"online": false}');
                     socket.broadcast.emit('offline notification', {myHandle: socket.handshake.headers.username, online: false}); // announce who disconnected currently announces to ALL
                     delete users[socket.handshake.headers.username];
@@ -446,21 +412,20 @@ function timeParser(date) {
 
 // rate limit algorithm
 function rateLimit() {
-    current = new Date().getTime() / 1000; // floating-point, e.g. usec accuracy. Unit: seconds
+    current = new Date().getTime() / 1000;
     time_passed = current - last_check;
     last_check = current;
     allowance = allowance + time_passed * (rate / per);
 
     if (allowance > rate) {
-        allowance = rate; // throttle
-        logger.debug('throttle');
+        allowance = rate;
     }
     if (allowance < 1.0) {
-        logger.debug('discard message');
+        logger.info('discard message');
         return false;
     } else {
         allowance = allowance - 1.0;
-        logger.debug('forward message');
+        logger.info('forward message');
         return true;
     }
 }

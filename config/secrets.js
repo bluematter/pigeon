@@ -26,7 +26,7 @@ module.exports = {
 
     sessionSecret: process.env.SESSION_SECRET || 'pigeon_ftw',
 
-    redisDb: {host: 'redis://127.0.0.1/0'},
+    redisDb: {host: 'redis://127.0.0.1/1'},
 
     corsOptions: {
         credentials: true,

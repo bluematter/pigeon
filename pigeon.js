@@ -60,9 +60,9 @@ var RedisStore = connectRedis(session);
 
 // redisSessionClient is used in socket.js
 var redisSessionClient = redis.createClient(secrets.redisDb);
-var sessionStore = new RedisStore({prefix: 'xy_gaming:', client: redisSessionClient});
+var sessionStore = new RedisStore({prefix: 'pigeon:', client: redisSessionClient});
 redisSessionClient.on('connect', function () {
-    logger.info('Connected to redis successfully!');
+    logger.info('65:', 'Connected to redis successfully!');
 });
 
 
@@ -72,13 +72,13 @@ redisSessionClient.on('connect', function () {
 
 mongoose.connect(secrets.db);
 mongoose.connection.on('connected', function () {
-    logger.info('Connected to mongoDB successfully!');
+    logger.info('75:', 'Connected to mongoDB successfully!');
 });
 mongoose.connection.on('error', function () {
-    logger.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
+    logger.error('78:', 'MongoDB Connection Error. Please make sure that MongoDB is running.');
 });
 mongoose.connection.on('disconnected', function () {
-    logger.warn('Mongoose default connection disconnected');
+    logger.warn('81:', 'Mongoose default connection disconnected');
 });
 
 
@@ -86,7 +86,7 @@ mongoose.connection.on('disconnected', function () {
  * Express configuration.
  */
 
-var origins = ['localhost', 'localhost:8000'];
+var origins = ['localhost', 'localhost:8000', '10.15.137.14:2345'];
 var protocols = ['http://', 'https://'];
 var whitelist = [];
 protocols.forEach(function(protocol) {
@@ -113,6 +113,11 @@ app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
 app.use(cors(corsOptions));
+app.use(session({
+  secret: secrets.sessionSecret,
+  resave: true,
+  saveUninitialized: true
+}))
 //app.use(flash());
 app.use(function (req, res, next) {
     res.locals.user = req.user;
@@ -134,14 +139,15 @@ require('./routes')(app, redisSessionClient);
 // var certificate = fs.readFileSync('./ssl/xygaming.com.crt').toString();
 // var ca = fs.readFileSync('./ssl/gd_bundle-g2-g1.crt').toString();
 
-/**
- * Start Express server.
- */
 // var express_options = {
 //     key: privateKey,
 //     cert: certificate,
 //     ca: ca,
 // };
+
+/**
+ * Start Express server.
+ */
 
 var server;
 
@@ -149,7 +155,7 @@ var is_https = false;
 
 if (!is_https) {
     server = app.listen(app.get('port'), function () {
-        logger.info('Express server listening on port %d using HTTP in %s mode', app.get('port'), app.get('env'));
+        logger.info('152:', 'Express server listening on port %d using HTTP in %s mode', app.get('port'), app.get('env'));
     });
 } else {
     server = https.createServer(express_options);

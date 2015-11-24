@@ -17563,7 +17563,7 @@ return jQuery;
 },{}],16:[function(require,module,exports){
 var DirectChatApp = require('./src/app.js');
 var XYGamingDirectChat = new DirectChatApp();
-  
+
 XYGamingDirectChat.start();
 },{"./src/app.js":17}],17:[function(require,module,exports){
 /*
@@ -17582,8 +17582,6 @@ var _ = require('underscore');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
 
-console.log(Marionette);
-
 var socket = io.connect(ChatParameters.url_base, {'connect timeout': 10000});
 var DirectMessageCollection = require('./collections/DirectMessageCollection');
 var DirectMessagesView = require('./views/directMessagesView');
@@ -17591,8 +17589,8 @@ var DirectMessagesView = require('./views/directMessagesView');
 module.exports = DirectChatApp = function DirectChatApp() {};
 
 // Extend Chatapp with a start method
-DirectChatApp.prototype.start = function(server){
-  
+DirectChatApp.prototype.start = function() {
+
   // Extend marionette
   DirectChatApp.core = new Marionette.Application();
   
@@ -17616,34 +17614,18 @@ DirectChatApp.prototype.start = function(server){
     */
     socket.on('connect', function (){
       console.info('socket connected');
-      // var friendsObj = g_InitialData.friends_with_games;
-      // var myHandle = g_InitialData.user.handle;
-      // var myFriends = sendFriends(friendsObj);
-      
-      // tell my friends im online
-      //socket.emit('im online', {myHandle: myHandle, online: true, myFriends: myFriends});
-
-      // figure out who is online
-      // $.get(ChatParameters.url_base + '/api/friends/', {myFriends} ).done(function(data) {
-      //   $.each(data, function(i,v) {
-      //     if(data[i].online) {
-      //       $('#my-friends-panel li.friend-item[data-handle="'+data[i].friend+'"] span.message-buttons').addClass('is--online');
-      //     }
-      //   });
-      // });
     });
 
-    // show a button for all logged in users on my friends list
-    // socket.on('online notification', function(data) {
-    //   console.log(data);
-    //   $('#my-friends-panel li.friend-item[data-handle="'+data.myHandle+'"] span.message-buttons').addClass('is--online');
-    // });
+    /*
+    |--------------------------------------------------------------------------
+    | TEMP: User created, need a way to add to DOM
+    |--------------------------------------------------------------------------
+    */
     
-    // // remove a button for all logged out users on my friends list
-    // socket.on('offline notification', function(data) {
-    //   console.log(data);
-    //   $('#my-friends-panel li.friend-item[data-handle="'+data.myHandle+'"] span.message-buttons').removeClass('is--online');
-    // });
+    // append new user connection to dom in a shitty way
+    socket.on('new user connected', function(data) {
+      $('.is--online ul').append('<li class="chat-with-friend-button" data-handle="'+data.whoConnected+'">'+data.whoConnected+'</li>');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -17652,10 +17634,24 @@ DirectChatApp.prototype.start = function(server){
     */
     $(document).on('click', '.is--online .chat-with-friend-button', function(e) {
       e.preventDefault();
+      
+      function readCookie(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1,c.length);
+              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+      }
+
       // identify the user we want to chat with, and let the server know we want to chat
       var user = $(this).data('handle');
-      var me = 'MikeBoy'; // needs a better way to get me
+      var me = readCookie('username'); // read cookie for username
       var uniqueChatID = [me, user].sort().join(''); // need a unique ChatID
+
+      console.log(uniqueChatID);
       
       // pull in mongoDB data for a particular chat
       if($('#'+uniqueChatID).length == 0) {
@@ -17961,7 +17957,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[6,">= 2.0.0-beta.1"],"
 },{"hbsfy/runtime":13}],23:[function(require,module,exports){
 
 var ChatParameters = {
-    url_base: 'http://localhost:2345'
+    url_base: 'http://10.15.137.14:2345'
 };
 
 module.exports = ChatParameters;

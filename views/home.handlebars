@@ -1,5 +1,23 @@
-<h1>WELCOME HOME</h1>
-
-<div class="is--online">
-    <button class="chat-with-friend-button" data-handle="JohnBoy">CLICK</button>
+<div class="row">
+	<div class="enter-username">
+	    <form class="grab">
+	    	<input class="my-name" placeholder="username">
+	    	<input type="submit" style="display: none;">
+	    </form>
+	</div>
 </div>
+
+<script type="text/javascript">
+	$('form.grab').submit(function(e) {
+		e.preventDefault();
+        
+        // grab user name & set cookie
+		var myName = $(this).find('.my-name').val();
+		document.cookie="username="+myName;
+        
+        $.post('/api/add', function(result) {
+        	console.log(result);
+        });
+
+	});
+</script>
