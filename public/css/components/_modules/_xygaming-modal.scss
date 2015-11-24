@@ -1,0 +1,259 @@
+/**
+ * XyGaming Challenge Opponent Modal
+ *
+ */
+
+// setup modal base
+#xyzgaming-modal .modal-dialog {
+  .modal-content {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    outline: 0;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    background-clip: padding-box;
+  }
+}
+
+// modal header
+#xyzgaming-modal .modal-header {
+  .close {
+    color: #fff;
+    opacity: 1;
+  }
+  .xygaming-match-type-buttons {
+    li {
+      list-style: none;
+    }
+    .button--console, .button--game {
+      background: linear-gradient(to top, #f0f0f0 0%, #ffffff 100%);
+      border: 1px solid #d6d6d6;
+      color: inherit;
+      width: 100%;
+      display: block;
+      height: 70px;
+      &:hover {
+        text-decoration: none;
+      }
+      .flex {
+        align-content: center;
+        justify-content: flex-start;
+        align-items: center;
+        .button-items {
+          margin: auto;
+        }
+        .dropdown-icon {
+          border-left: 1px solid #d6d6d6;
+          line-height: 69px;
+          padding: 0 6px;
+        }
+      }
+    }
+    .button--console {
+      img {
+        max-width: 47px;
+        display: block;
+        margin: auto;
+      }
+      span {
+        text-align: center;
+        display: block;
+      }
+    }
+    .button--game {
+      img {
+        max-width: 57px;
+        margin-left: 9px;
+        margin-right: 15px;
+        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+      }
+      span {
+        font-size: 21px;
+      }
+      .dropdown-icon {
+        margin-left: auto;
+      }
+    }
+  }
+}
+
+// main wager modal
+#xyzgaming-modal .modal-body {
+  padding: 0;
+  .user-me, .user-opponent {
+    .user-name {
+      text-align: center;
+      color: #fefefe;
+      font-size: 16px;
+      margin-bottom: 10px;
+      margin-top: 15px;
+    }
+    .user-image-wrap {
+      position: relative;
+      width: 95px;
+      height: 92px;
+      margin: auto;
+      margin-bottom: 30px;
+      .user-image {
+        width: 95px;
+        height: 92px;
+        display: block;
+        margin: auto;
+        border: 4px solid #fff;
+        background-color: #333;
+        margin-bottom: 30px;
+        overflow: hidden;
+        img {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+  .user-me {
+    width: 25%;
+    background-color: $colorBrand;
+  }
+  .user-opponent {
+    width: 25%;
+    background-color: $colorBrand;
+  }
+  .game-level {
+    margin: 0 15px 15px 15px;
+    width: auto;
+    border: 3px solid #eaeaea;
+    font-size: 13px;
+  }
+}
+
+// challenge details
+#xyzgaming-modal .modal-body {
+  .challenge-details-tab .nav.nav-tabs {
+    background: #eee;
+    li {
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+    }
+    a {
+      border-radius: 0;
+      background-color: #f5f5f5;
+      color: #222;
+      margin: 0;
+    }
+  }
+  .wager-type {
+    width: 50%;
+    background-color: #5a5a5a;
+    color: #fff;
+    text-align: center;
+    h4 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button {
+      box-shadow: 0 0 0 0;
+      text-shadow: 0 0 0;
+    }
+    .select-wager-type {
+      .nav.nav-tabs {
+        border: 0 none;
+        li {
+          display: inline-block;
+          float: none;
+          margin-left: -3px;
+          a {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            line-height: normal;
+          }
+        }
+      }
+      .wager-type-buttons {
+        .active {
+          button {
+            background: $colorBrand;
+            color: #fff;
+          }
+        }
+        button:last-child {
+          margin-left: -4px;
+        }
+        button {
+          padding: 5px 10px;
+          color: #222;
+        }
+      }
+    }
+    .select-wager-amount {
+      input {
+        color: #222;
+        width: 25%;
+        border: 2px solid #11bef8;
+        padding: 0 5px;
+        text-align: center;
+      }
+    }
+    .share-wager {
+      .btn-social {
+        margin-top: 15px;
+        border-radius: 0;
+        &:hover {
+          color: #fff;
+        }
+      }
+      p.details {
+        font-size: 10px;
+        padding: 0 20px;
+      }
+    }
+    .total-prize {
+      padding: 20px 0;
+      border-top: 1px solid #333;
+      h1 {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+// match settings
+#xyzgaming-modal .modal-body {
+  .match-settings {
+    .flex {
+      justify-content: space-between;
+      padding: 10px 20px 0;
+    }
+    .display-inline-block {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+      text-align: right;
+      &:first-child {
+        width: 41%;
+      }
+    }
+    .date {
+      input {
+        border: 1px solid #c3c3c3;
+        border-radius: 0;
+        height: 25px;
+        border-right: 0;
+      }
+      .input-group-addon {
+        background: transparent;
+        padding: 0 10px;
+        border-radius: 0;
+        height: 25px;
+      }
+    }
+    .time-dropdown {
+      span.seperator {
+        display: inline-block;
+        width: 2%;
+      }
+    }
+  }
+}

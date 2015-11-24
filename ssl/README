@@ -1,0 +1,5 @@
+This directory is expected to have the SSL certificates and key in it, being:
+
+xygaming.com.crt
+xygaming.com.key
+gd_bundle-g2-g1.crt (GoDaddy CA certs)

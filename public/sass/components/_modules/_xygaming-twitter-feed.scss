@@ -1,0 +1,28 @@
+#xygaming-twitter {
+	.item {
+		.user {
+			a {
+			    color: #000;
+		    }
+			img {
+				display: block;
+				margin: 15px auto;
+			}
+		}
+		.tweet {
+			margin: 20px 0;
+			font-size: 18px;
+		}
+		.timePosted {
+		    margin: 15px 0;
+		    a {
+		    	color: #c5c5c5;
+		    }
+		}
+	}
+	.fa-twitter {
+		color: #55acee;
+		font-size: 23px;
+		margin: 15px 0;
+	}
+}

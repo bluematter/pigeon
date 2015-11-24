@@ -1,0 +1,13 @@
+<div class="{{class}}">
+    {{#if timeStamp}}
+	  <span class="time">[{{timeStamp}}]</span>
+	{{/if}}
+	{{#if nickname}}
+	  <span class="user-name">{{nickname}}</span>
+	{{/if}}
+	{{#if message}}
+	  <span class="text">{{message}}</span>
+    {{else}}
+      <span class="text color--red">Somehow the message didnt go through? It's really impossible for this message to show up, if it has then you are a god...</span>
+	{{/if}}
+</div>

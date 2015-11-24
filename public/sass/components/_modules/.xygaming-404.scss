@@ -1,0 +1,16 @@
+.xygaming-exception {
+	background-image: url('/images/404bg.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: #fff;
+	.container-exception {
+		max-width: 1170px;
+		margin: 0 auto;
+		height: 100vh;
+	}
+	.module-exception {
+		position: relative;
+		top: 25%;
+		width: 45%;
+	}
+}

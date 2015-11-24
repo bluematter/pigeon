@@ -1,0 +1,247 @@
+/**
+ * XyGaming Default Panel
+ *
+ */
+.xygaming-panel {
+  background: #fff;
+  position: relative;
+  border: 1px solid #d6d6d6;
+  box-shadow: 0 0 8px #d6d6d6;
+  margin-bottom: 16px;
+  &.promotion {
+    height: 100%;
+    &:before {
+      content: '';
+      background-image: url(../images/featured-promotions.jpg);
+      background-position: center;
+      background-size: 620px;
+      position: absolute;
+
+    }
+  }
+  .fa-chevron-right {
+    margin-right: -4px;
+  }
+}
+
+.xygaming-panel-badge-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: #1cb5e7;
+  color: white;
+  display: inline-block;
+  padding: 8px;
+  line-height: 1em;
+  font-weight: bold;
+  height: 30px;
+  letter-spacing: 0.05em;
+}
+.xygaming-panel-badge-left:after {
+  content: '';
+  border-color: #1cb5e7 transparent transparent #1cb5e7;
+  border-style: solid;
+  border-width: 15px;
+  position: absolute;
+  bottom: 0px;
+  right: -30px;
+  top: 0px;
+}
+.xygaming-panel-badge-right:before {
+  content: '';
+  border-style: solid;
+  border-width: 15px;
+  position: absolute;
+  left: -30px;
+  top: 0px;
+  border-color: #1cb5e7 #1cb5e7 transparent transparent;
+}
+.xygaming-panel-badge-right {
+  background-color: #1cb5e7;
+  color: white;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  padding: 8px;
+  line-height: 1em;
+  font-weight: bold;
+  height: 30px;
+  letter-spacing: 0.05em;
+}
+
+#my-friends-panel {
+  img {
+    border-radius: 0;
+    border: 1px solid #333;
+  }
+}
+
+.advertisement-panel {
+  overflow: hidden;
+  img {
+    max-width: 100%;
+  }
+  li {
+    padding: 3px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 10px;
+    font-weight: bold;
+    .icon-wrap {
+      margin-right: 10px;
+      .fa-chevron-right {
+        color: #00c0ff;
+        margin-right: -4px;
+      }
+    }
+  }
+  .overlay-block {
+    background-color: rgba(0, 0, 0, 0.8);
+    left: 0;
+    right: 0;
+    padding: 8px;
+    text-align: center;
+    height: 60px;
+    .overlay-text {
+      color: #fff;
+      h1 {
+        font-size: 16px
+      }
+      h3 {
+        font-size: 14px;
+      }
+    }
+  }
+  .new-user-steps {
+    i.fa-info-circle {
+      color: #00c0ff;
+      font-size: 43px;
+    }
+    span.user-info {
+      display: inline-block;
+      vertical-align: top;
+      padding: 0 10px;
+      white-space: normal;
+    }
+  }
+}
+
+// advertisement carousel
+#xygaming-advertisement-carousel  {
+  height: 100%;
+  .carousel-inner {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      > .item {
+        height: 100%;
+      }
+  }
+}
+#xygaming-advertisement-carousel .carousel-caption {
+  background-color: rgba(0,0,0,0.8);
+  left: 0;
+  right: 0;
+  padding: 8px;
+  text-align: center;
+  height: 60px;
+}
+#xygaming-advertisement-carousel .carousel-caption p {
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  //margin-left: 64px;
+}
+#xygaming-advertisement-carousel .carousel-control.left,
+#xygaming-advertisement-carousel .carousel-control.right {
+  background: none;
+  width: 64px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 32px;
+  position: absolute;
+  bottom: 20px;
+  top: auto;
+  opacity: 1;
+  z-index: 10;
+  text-align: center;
+}
+#xygaming-advertisement-carousel .carousel-control.left {
+  left: 0px;
+}
+#xygaming-advertisement-carousel .carousel-control.right {
+  right: 0px;
+}
+
+body .xygaming-panel.post-challenge-panel {
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:linear-gradient(to bottom, #eee 5%, #ddd 100%);
+  background-color:#d1d1d1;
+  border:1px solid #d4d4d4;
+  text-align: center;
+  padding: 10px 20px;
+  h1 {
+    font-size: 22px;
+  }
+}
+
+.xygaming-panel.choose-money-type .nav-tabs {
+  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  background: linear-gradient(to bottom, #eee 5%, #ddd 100%);
+  background-color: #d1d1d1;
+  border: 1px solid #d4d4d4;
+  text-align: center;
+  h1 {
+    font-size: 21px;
+  }
+  a {
+    color: #222;
+    border-radius: 0;
+    margin: 0;
+  }
+  li {
+    width: 50%;
+  }
+}
+
+.xygaming-panel .nav-tabs > li.active > a, .xygaming-panel .nav-tabs > li.active > a:hover, .xygaming-panel .nav-tabs > li.active > a:focus {
+  background-color: $colorBrand;
+  box-shadow: inset 0 0 6px 0 rgba(0,0,0,0.4);
+  color: #fff;
+}
+
+
+#new-player-guide .xygaming-newplayer-panel {
+  padding: 0px;
+  padding-top: 40px;
+  border-left: 1px solid #ccc;
+  font-size: 13px;
+  text-align: center;
+  height: 250px;
+  overflow: hidden;
+  .newplayer-step {
+    background: #03b0e8;
+    height: 90px;
+    margin-top: 45px;
+    margin-bottom: 10px;
+  }
+  img {
+    max-width: 80%;
+  }
+}
+#new-player-guide .xygaming-newplayer-panel:first-child {
+  border: none;
+}
+#new-player-guide .xygaming-newplayer-panel h3 {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 4px 0;
+}
+#new-player-guide .xygaming-newplayer-panel p {
+  padding: 8px;
+  margin: 0;
+}

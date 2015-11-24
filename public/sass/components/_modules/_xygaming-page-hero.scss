@@ -1,0 +1,246 @@
+#xygaming-page-hero {
+	background-color: #111 !important;
+	position: relative;
+	overflow: hidden;
+    height: 45vh;
+    &.landing-hero {
+    	height: auto;
+    	padding-top: 100px;
+    	.hero-text {
+    		transform: translateY(0);
+    	}
+    }
+	.hero-image, .backstretch img {
+		opacity: 0.1;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+	.hero-logo {
+		margin: 0 0 40px;
+	}
+	.hero-text {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		text-align: center;
+		img {
+			max-width: 300px;
+		}
+		h1 {
+			font-size: 38px;
+			letter-spacing: -0.01em;
+		}
+		button {
+			font-size: 14px;
+		    padding: .7em 2.2em;
+		    letter-spacing: 0.05em;
+		}
+	}
+	.hero-register {
+	    padding-bottom: 60px;
+	    padding-top: 40px;
+		.registerbar {
+			display: inline-block;
+			vertical-align: middle;
+			.input-element {
+				position: relative;
+				&:first-child {
+					margin-bottom: 15px;
+				}
+				input {
+					border: 1px solid #c4c4c4;
+					border-radius: 2px;
+					background-color: #fff;
+					color: #565a5c;
+					transition: border-color 0.2s;
+					font-size: 16px;
+					text-align: center;
+					padding-top: 10px;
+					padding-bottom: 10px;
+					display: block;
+					height: 44px;
+					padding: 8px 10px;
+					width: 300px;
+					&.input-username {
+					}
+					&.input-email {
+						border-left: 0;
+					}
+				}
+				.has--error {
+					background-color: #fff;
+					border: 1px solid #fff;
+					border-radius: 2px;
+					padding: 6px 5px;
+					position: absolute;
+					top: -47px;
+					margin: 0 20px;
+					left: 0;
+					right: 0;
+					&:after {
+					   content: "";
+					   position: absolute;
+					   top: 100%;
+					   border-top: 7px solid black;
+					   border-top-color: #fff;
+					   border-left: 5px solid transparent;
+					   border-right: 5px solid transparent;
+					   left: 50%;
+					   z-index: 0;
+					}
+					i {
+						margin-right: 5px;
+					}
+				}
+		    }
+			button {
+				border-radius: 2px;
+				display: block;
+				height: 44px;
+				margin: 0 -1px 0 0;
+				padding-bottom: 0;
+				padding-top: 0;
+				vertical-align: middle;
+				width: 100%;
+			}
+		}
+	}
+	.hero-arrow-down {
+		width: 100%;
+		text-align: center;
+		padding: 20px 0;
+		.arrow {
+			i {
+			    color: #fff;
+			    cursor: pointer;
+			    font-size: 30px;
+		    }
+		}
+	}
+}
+
+
+// responsive styles
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	#xygaming-page-hero {
+		height: 45vh;
+		&.landing-hero {
+			height: 80vh;
+			padding-top: 0;
+			.hero-text {
+				transform: translateY(-50%);
+			}
+		}
+		.hero-text {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			text-align: center;
+			img {
+				max-width: 300px;
+			}
+			h1 {
+				font-size: 45px;
+				letter-spacing: -0.01em;
+			}
+			button {
+				font-size: 18px;
+			    padding: .7em 2.2em;
+			    letter-spacing: 0.05em;
+			}
+		}
+		.hero-register {
+			padding-bottom: 30px;
+			padding-top: 30px;
+			margin-top: 30px;
+			.registerbar {
+				.input-element {
+					float: left;
+					&:first-child {
+						margin-right: 15px;
+						margin-bottom: 0;
+					}
+					input {
+						margin: 0;
+						font-size: 18px;
+						&.input-username {
+						}
+						&.input-email {
+							border-left: 0;
+						}
+					}
+					.has--error {
+						background-color: #fff;
+						border: 1px solid #fff;
+						border-radius: 2px;
+						padding: 6px 5px;
+						position: absolute;
+						top: -47px;
+						margin: 0 20px;
+						left: 0;
+						right: 0;
+						&:after {
+						   content: "";
+						   position: absolute;
+						   top: 100%;
+						   border-top: 7px solid black;
+						   border-top-color: #fff;
+						   border-left: 5px solid transparent;
+						   border-right: 5px solid transparent;
+						   left: 50%;
+						   z-index: 0;
+						}
+						i {
+							margin-right: 5px;
+						}
+					}
+			    }
+			}
+		}
+		.hero-arrow-down {
+			position: absolute;
+			bottom: 5vh;
+			width: 100%;
+			text-align: center;
+			.arrow {
+				i {
+				    color: #fff;
+				    cursor: pointer;
+				    font-size: 30px;
+			    }
+			}
+		}
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	
+}
+
+// @media screen and (max-width: 760px) {
+// 	#xygaming-page-hero {
+// 		.hero-text {
+// 			img {
+// 				max-width: 300px;
+// 			}
+// 			h1 {
+// 				font-size: 32px;
+// 			}
+// 			button {
+// 				font-size: 1em;
+// 			}
+// 		}
+// 	}
+// }

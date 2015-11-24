@@ -1,0 +1,337 @@
+$footer-min-padding: 15px;
+$footer-padding-sides: 15px;
+$footer-color: #fff;
+$footer-bg-color: #393939;
+$footer-btn-size: 10px;
+$footer-button-fill-color: $colorBrand;
+$footer-heading-line-height: 10px;
+$footer-heading-font-size: 13px;
+$footer-heading-color: #fff;
+
+// main #212121 !important
+// secondary #424242 !important
+
+.footer-push {
+	height: 333px;
+  margin-top: 30px;
+}
+
+.xygaming-footer {
+
+  &.mdl-mega-footer {
+   background-color: $footer-bg-color;
+   padding: 16px 0 0;
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+ }
+
+ .mdl-mega-footer--heading, .mdl-mega-footer__heading {
+  font-size: 18px;
+  margin-top: 20px;
+  line-height: 33px;
+}
+
+.xy-social-block {
+  margin-bottom: 30px;
+  .xygaming-location {
+   text-align: center;
+  }
+}
+
+a:hover, a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: inherit;
+}
+a:visited {
+  color: inherit;
+}
+
+}
+
+.footer-closer {
+	background-color: #424242;
+	text-align: center;
+	padding: 7px 0;
+	p {
+   color: #aaa;
+   margin: 0;
+ }
+}
+
+
+
+
+
+/* ==========  Footer  ========== */
+
+$footer-bg-color: unquote("rgb(#{$palette-grey-800})") !default;
+$footer-color: unquote("rgb(#{$palette-grey-500})") !default;
+$footer-heading-color: unquote("rgb(#{$palette-grey-300})") !default;
+$footer-button-fill-color: $footer-color !default;
+$footer-underline-color: $footer-color !default;
+
+
+.mdl-mega-footer {
+  padding: $footer-min-padding $footer-padding-sides;
+
+  color: $footer-color;
+  background-color: $footer-bg-color;
+}
+
+
+.mdl-mega-footer--top-section:after,
+.mdl-mega-footer--middle-section:after,
+.mdl-mega-footer--bottom-section:after,
+.mdl-mega-footer__top-section:after,
+.mdl-mega-footer__middle-section:after,
+.mdl-mega-footer__bottom-section:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.mdl-mega-footer--left-section,
+.mdl-mega-footer__left-section {
+  margin-bottom: $footer-min-padding;
+}
+
+.mdl-mega-footer--right-section,
+.mdl-mega-footer__right-section {
+  margin-bottom: $footer-min-padding;
+}
+
+.mdl-mega-footer--right-section a,
+.mdl-mega-footer__right-section a {
+  display: block;
+
+  margin-bottom: $footer-min-padding;
+
+  color: inherit;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 760px) {
+  .mdl-mega-footer--left-section,
+  .mdl-mega-footer__left-section {
+    float: left;
+  }
+
+  .mdl-mega-footer--right-section,
+  .mdl-mega-footer__right-section {
+    float: right;
+  }
+
+  .mdl-mega-footer--right-section a,
+  .mdl-mega-footer__right-section a {
+    display: inline-block;
+
+    margin-left: $footer-min-padding;
+
+    line-height: $footer-btn-size;
+    vertical-align: middle;
+  }
+}
+
+.mdl-mega-footer--social-btn,
+.mdl-mega-footer__social-btn {
+  width: $footer-btn-size;
+  height: $footer-btn-size;
+
+  padding: 0;
+  margin: 0;
+
+  background-color: $footer-button-fill-color;
+
+  border: none;
+}
+
+.mdl-mega-footer--drop-down-section,
+.mdl-mega-footer__drop-down-section {
+  display: block;
+
+  position: relative;
+}
+
+@media screen and (min-width: 760px) {
+  .mdl-mega-footer--drop-down-section,
+  .mdl-mega-footer__drop-down-section {
+    width: 33%;
+  }
+
+  .mdl-mega-footer--drop-down-section:nth-child(1),
+  .mdl-mega-footer--drop-down-section:nth-child(2),
+  .mdl-mega-footer__drop-down-section:nth-child(1),
+  .mdl-mega-footer__drop-down-section:nth-child(2) {
+    float: left;
+  }
+
+  .mdl-mega-footer--drop-down-section:nth-child(3),
+  .mdl-mega-footer__drop-down-section:nth-child(3) {
+    float: right;
+
+    &:after {
+      clear: right;
+    }
+  }
+
+  .mdl-mega-footer--drop-down-section:nth-child(4),
+  .mdl-mega-footer__drop-down-section:nth-child(4) {
+    clear: right;
+    float: right;
+  }
+
+  .mdl-mega-footer--middle-section:after,
+  .mdl-mega-footer__middle-section:after {
+    content: '';
+
+    display: block;
+
+    clear: both;
+  }
+
+  .mdl-mega-footer--bottom-section,
+  .mdl-mega-footer__bottom-section {
+    padding-top: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .mdl-mega-footer--drop-down-section,
+  .mdl-mega-footer--drop-down-section:nth-child(3),
+  .mdl-mega-footer--drop-down-section:nth-child(4),
+  .mdl-mega-footer__drop-down-section,
+  .mdl-mega-footer__drop-down-section:nth-child(3),
+  .mdl-mega-footer__drop-down-section:nth-child(4) {
+    width: 24%;
+
+    float: left;
+  }
+}
+
+.mdl-mega-footer--heading-checkbox,
+.mdl-mega-footer__heading-checkbox {
+  position: absolute;
+  width: 100%;
+  height: $footer-heading-line-height + ($footer-min-padding * 2);
+
+  padding: ($footer-min-padding * 2);
+  margin: 0;
+  margin-top: -$footer-min-padding;
+
+  z-index: 1;
+  opacity: 0;
+
+}
+
+.mdl-mega-footer--heading,
+.mdl-mega-footer__heading {
+  position: relative;
+  width: 100%;
+
+  padding-right: $footer-heading-line-height + $footer-min-padding;
+  margin-bottom: $footer-min-padding;
+
+  box-sizing:border-box;
+
+  font-size: $footer-heading-font-size;
+  line-height: $footer-heading-line-height;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  color: $footer-heading-color;
+}
+
+
+.mdl-mega-footer--link-list,
+.mdl-mega-footer__link-list {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+
+  margin-bottom: $footer-min-padding * 2;
+  &:after {
+    clear: both;
+    display: block;
+    content: '';
+  }
+}
+
+.mdl-mega-footer--link-list li,
+.mdl-mega-footer__link-list li {
+  //@include typo-body-1();
+  line-height: 20px;
+}
+
+.mdl-mega-footer--link-list a,
+.mdl-mega-footer__link-list a {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mdl-mega-footer--bottom-section,
+.mdl-mega-footer__bottom-section {
+  padding-top: $footer-min-padding;
+  margin-bottom: $footer-min-padding;
+}
+
+.mdl-logo {
+  margin-bottom: $footer-min-padding;
+  color: white;
+}
+
+.mdl-mega-footer--bottom-section .mdl-mega-footer--link-list li,
+.mdl-mega-footer__bottom-section .mdl-mega-footer__link-list li {
+  float: left;
+
+  margin-bottom: 0;
+  margin-right: $footer-min-padding;
+}
+
+
+
+@media screen and (min-width: 760px) {
+  .mdl-logo {
+    float: left;
+
+    margin-bottom: 0;
+    margin-right: $footer-min-padding;
+  }
+}
+
+
+// responsive styles
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .xygaming-footer {
+    .xy-social-block {
+      float: right;
+      .xygaming-location {
+       text-align: right;
+      }
+    }
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}

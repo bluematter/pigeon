@@ -1,0 +1,582 @@
+.cashier--view {
+	// min-height: 1000px;
+	nav.cashier-nav {
+		width: 21%;
+		float: left;
+		.cashier-nav-wrapper {
+			ul {
+				li {
+					a {
+						color: #404040;
+						border-left: 2px solid transparent;
+						padding: 4px 10px;
+						font-size: 16px;
+						position: relative;
+						display: block;
+						padding: 10px 15px;
+						text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2);
+						&:focus, &.active {
+							text-decoration: none;
+							background-color: transparent;
+							border-right: 4px solid $colorBrand;
+							font-weight: 600;
+							text-shadow: none;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.cashier-page-main {
+		width: 79%;
+		border-left: 1px solid #ddd;
+		float: left;
+		section.cashier-section {
+			display: none;
+			&.active {
+				display: block;
+			}
+			.cashier-page-heading {
+				border-bottom: 1px solid #ddd;
+				padding: 16px;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+				h2 {
+					font-weight: 600;
+				}
+			}
+			.cashier-page-body {
+				h3 {
+					font-weight: 600;
+				}
+				.cashier-section-title {
+					margin-bottom: 6px;
+					font-weight: 600;
+				}
+			}
+			.cashier-account-data {
+				padding: 30px 15px;
+				ul {
+					li {
+						list-style: none;
+						font-size: 16px;
+						display: table;
+						width: 320px;
+						&.total {
+							font-weight: bold;
+						}
+						.data-cell-right, .data-cell-left {
+							display: table-cell;
+							vertical-align: middle;
+							white-space: nowrap;
+							text-align: left;
+						}
+						.data-cell-left {
+							width: 30%;
+						}
+						.data-cell-right {
+							width: 70%;
+							.edit-info {
+								cursor: pointer;
+								color: $colorBrand;
+								text-decoration: underline;
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		#AccountInformation {
+			.cashier-account-section {
+				border-bottom: 1px solid #ddd;
+				.cashier-account-row {
+					padding: 10px 15px;
+					border-bottom: 2px solid $colorBrand;
+					width: 100%;
+					display: table;
+					.left-text {
+						display: table-cell;
+						vertical-align: middle;
+						width: 1px;
+						white-space: nowrap;
+						text-align: left;
+						p {
+							font-size: 18px;
+						}
+					}
+					.pad {
+						display: table-cell;
+						width: auto;
+					}
+					.right-button {
+						display: table-cell;
+						width: 1px;
+						vertical-align: middle;  
+						white-space: nowrap;
+						text-align: right;
+						.deposit-button {
+							background-color: $colorBrand;
+							border: 1px solid darken($colorBrand, 5%);
+							background:linear-gradient(to bottom, $colorBrand 0%, darken($colorBrand, 1%) 49%, darken($colorBrand, 2%) 50%, darken($colorBrand, 5%) 100%);
+							color: #fff;
+						}
+					}
+				}
+			}
+		}
+		#Deposit {
+			min-height: 370px;
+			.cashier-account-data ul li .data-cell-left {
+				width: 35%;
+			}
+			.cashier-page-cards {
+				width: 25%;
+				float: left;
+				border-right: 1px solid #ddd;
+				min-height: 370px;
+				a{
+					display: block;
+					&.active {
+						box-shadow: inset -4px 0px 0 0px $colorBrand;
+					}
+					.major-cards {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						.card-row {
+							display: flex;
+							justify-content: space-around;
+							margin-bottom: 7.5px;
+							&:last-child {
+								margin-bottom: 0;
+							}
+							.card {
+								background-color: #eee;
+								background-size: cover;
+								border: 1px solid #ccc;
+								height: 25px;
+								width: 41px;
+								padding: 0 7.5px;
+								&.visa-card {
+									background-image: url('../img/credit_cards/visa.png');
+								}
+								&.mastercard-card {
+									background-image: url('../img/credit_cards/mastercard.png');
+								}
+								&.americanexpress-card {
+									background-image: url('../img/credit_cards/amex.png');
+								}
+								&.discover-card {
+									background-image: url('../img/credit_cards/discover.png');
+								}
+								&.diners-card {
+									background-image: url('../img/credit_cards/diners.png');
+								}
+								&.jcb-card {
+									background-image: url('../img/credit_cards/jcb.png');
+								}
+							}
+						}
+					}
+					.paypal-card {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						cursor: pointer;
+						.card {
+							background-image: url('../img/credit_cards/Paypal.png');
+							background-size: contain;
+							background-color: #eee;
+							height: 59px;
+							max-width: 141px;
+							display: block;
+							margin: 0 auto;
+						}
+					}
+				}
+			}
+			.payment-deposit-section {
+				display: none;
+				&.active {
+					display: block;
+				}
+				.cashier-page-heading {
+					width: 75%;
+					float: left;
+				}
+				.cashier-page-body {
+					width: 75%;
+					float: left;
+					.deposit-details {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+					}
+					.deposit-button-wrapper {
+						padding: 15px;
+						.deposit-button {
+							background-color: $colorBrand;
+							border: 1px solid darken($colorBrand, 5%);
+							background:linear-gradient(to bottom, $colorBrand 0%, darken($colorBrand, 1%) 49%, darken($colorBrand, 2%) 50%, darken($colorBrand, 5%) 100%);
+							color: #fff;
+							padding: 7px 30px;
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+		#Withdraw {
+			.cashier-page-cards {
+				width: 25%;
+				float: left;
+				border-right: 1px solid #ddd;
+				min-height: 950px;
+				a {
+					display: block;
+					&.active {
+						box-shadow: inset -4px 0px 0 0px $colorBrand;
+					}
+					.paypal-card {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						cursor: pointer;
+						.card {
+							background-image: url('../img/credit_cards/Paypal.png');
+							background-size: contain;
+							background-color: #eee;
+							height: 59px;
+							max-width: 141px;
+							display: block;
+							margin: 0 auto;
+						}
+					}
+					.check-card {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						cursor: pointer;
+						.card {
+							background-image: url('../img/credit_cards/Check.png');
+							background-size: contain;
+							background-color: #eee;
+							border: 1px solid #ccc;
+							height: 59px;
+							max-width: 141px;
+							display: block;
+							margin: 0 auto;
+						}
+					}
+					.bank-transfer-card {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						cursor: pointer;
+						.card {
+							background-image: url('../img/credit_cards/bank-transfer.png');
+							background-size: contain;
+							background-color: #eee;
+							border: 1px solid #ccc;
+							height: 59px;
+							max-width: 141px;
+							display: block;
+							margin: 0 auto;
+						}
+					}
+					.wire-transfer-card {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						cursor: pointer;
+						.card {
+							background-image: url('../img/credit_cards/wire-transfer.png');
+							background-size: contain;
+							background-color: #eee;
+							border: 1px solid #ccc;
+							height: 59px;
+							max-width: 141px;
+							display: block;
+							margin: 0 auto;
+						}
+					}
+				}
+			}
+			.payment-withdraw-section {
+				display: none;
+				&.active {
+					display: block;
+				}
+				.cashier-page-heading {
+					width: 75%;
+					float: left;
+				}
+				.cashier-page-body {
+					width: 75%;
+					float: left;
+					.withdraw-details {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						&:last-child {
+							border-bottom: 0;
+						}
+					}
+					.withdraw-button-wrapper {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						.withdraw-button {
+							background-color: $colorBrand;
+							border: 1px solid darken($colorBrand, 5%);
+							background:linear-gradient(to bottom, $colorBrand 0%, darken($colorBrand, 1%) 49%, darken($colorBrand, 2%) 50%, darken($colorBrand, 5%) 100%);
+							color: #fff;
+							padding: 7px 30px;
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+
+		#GameID {
+			min-height: 370px;
+			.xygaming-battle-ids {
+				li {
+					img {
+						display: inline-block;
+						margin: 0;
+					}
+					a {
+						cursor: pointer;
+					}
+				}
+			}
+		}
+
+		#TransactionHistory {
+			min-height: 370px;
+			.xygaming-table table {
+				padding-top: 0;
+			}
+			.transaction-navigator {
+				border-top: 1px solid #ddd;
+				padding: 10px 20px;
+				.nav-table {
+					display: table;
+				}
+				.page-numbers {
+					margin-right: 20px;
+					font-weight: bold;
+					display: table-cell;
+					vertical-align: middle;
+					padding: 0 25px;
+				}
+				.change-page-buttons {
+					display: table-cell;
+					.left-nav, .right-nav {
+						background-color: $colorBrand;
+						border: 1px solid darken($colorBrand, 5%);
+						background:linear-gradient(to bottom, $colorBrand 0%, darken($colorBrand, 1%) 49%, darken($colorBrand, 2%) 50%, darken($colorBrand, 5%) 100%);
+						color: #fff;
+						cursor: pointer;
+						display: table-cell;
+						width: 22px;
+						height: 24px;
+						i {
+							display: block;
+							text-align: center;
+							font-size: 20px;
+							position: relative;
+						}
+					}
+					.left-nav {
+						right: 5px;
+						position: relative;
+						i {
+							left: -2px;
+						}
+					}
+					.right-nav {
+					}
+				}
+			}
+		}
+
+		#BuyPlayMoney {
+
+			// MOVE
+			.xygaming-panel-badge-left {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 10;
+				background-color: $colorBrand;
+				color: white;
+				display: inline-block;
+				padding: 4px;
+				line-height: 14px;
+				font-size: 14px;
+				height: 22px;
+				letter-spacing: 0.02em;
+			}
+			.xygaming-panel-badge-left:after {
+				content: '';
+				border-color: $colorBrand transparent transparent $colorBrand;
+				border-style: solid;
+				border-width: 11px;
+				position: absolute;
+				bottom: 0px;
+				right: -21px;
+				top: 0px;
+			}
+
+			.cashier-page-cards {
+				width: 25%;
+				float: left;
+				border-right: 1px solid #ddd;
+				min-height: 590px;
+				a {
+					display: block;
+					&.active {
+						box-shadow: inset -4px 0px 0 0px $colorBrand;
+					}
+					.major-cards {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						.card-row {
+							display: flex;
+							justify-content: space-around;
+							margin-bottom: 7.5px;
+							&:last-child {
+								margin-bottom: 0;
+							}
+							.card {
+								background-color: #eee;
+								background-size: cover;
+								border: 1px solid #ccc;
+								height: 25px;
+								width: 41px;
+								padding: 0 7.5px;
+								&.visa-card {
+									background-image: url('../img/credit_cards/visa.png');
+								}
+								&.mastercard-card {
+									background-image: url('../img/credit_cards/mastercard.png');
+								}
+								&.americanexpress-card {
+									background-image: url('../img/credit_cards/amex.png');
+								}
+								&.discover-card {
+									background-image: url('../img/credit_cards/discover.png');
+								}
+								&.diners-card {
+									background-image: url('../img/credit_cards/diners.png');
+								}
+								&.jcb-card {
+									background-image: url('../img/credit_cards/jcb.png');
+								}
+							}
+						}
+					}
+					.paypal-card {
+						padding: 15px;
+						border-bottom: 1px solid #ddd;
+						cursor: pointer;
+						.card {
+							background-image: url('../img/credit_cards/Paypal.png');
+							background-size: contain;
+							background-color: #eee;
+							height: 59px;
+							max-width: 141px;
+							display: block;
+							margin: 0 auto;
+						}
+					}
+				}
+			}
+			.playmoney-coins-section {
+				display: none;
+				&.active {
+					display: block;
+				}
+				.cashier-page-heading {
+					width: 75%;
+					float: left;
+				}
+				.cashier-page-body {
+					width: 75%;
+					float: left;
+					.coin-wrapper {
+						padding: 15px;
+						.coin-panel {
+							h2.amount-text {
+								text-align: center;
+								font-size: 20px;
+								margin: 10px 0;
+							}
+							.coin {
+								height: 90px;
+								margin: 0 5px;
+								&.tenk-coins {
+									background-image: url('../img/coins/10k.png');
+								}
+								&.twentyfivek-coins {
+									background-image: url('../img/coins/25k.png');
+								}
+								&.sixtyk-coins {
+									background-image: url('../img/coins/60k.png');
+								}
+								&.oneEightyk-coins {
+									background-image: url('../img/coins/180k.png');
+								}
+								&.fivehunderedk-coins {
+									background-image: url('../img/coins/500k.png');
+								}
+								&.onePointThreeSeventyFivem-coins {
+									background-image: url('../img/coins/1.375m.png');
+								}
+								&.fourm-coins {
+									background-image: url('../img/coins/4m.png');
+								}
+							}
+							
+							.coin-purchase-button {
+								background-color: $colorBrand;
+								border: 1px solid darken($colorBrand, 5%);
+								color: #fff;
+								padding: 0px;
+								margin: 10px auto;
+								display: block;
+								width: 85%;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		#AddBonusCode {
+			.bonus-code-section {
+				min-height: 370px;
+				.bonus-code-wrapper	{
+					padding: 15px;
+					.form-group {
+						width: 35%;
+						.form-control {
+							margin: 0;
+							width: 100%;
+							border: 1px solid #c3c3c3;
+							box-shadow: inset 0 0 2px 0px rgba(0, 0, 0, 0.1);
+							background: linear-gradient(to top, #ededed 0%, #fefefe 100%);
+						}
+					}
+					.bonus-code-button {
+						background-color: $colorBrand;
+						border: 1px solid darken($colorBrand, 5%);
+						background:linear-gradient(to bottom, $colorBrand 0%, darken($colorBrand, 1%) 49%, darken($colorBrand, 2%) 50%, darken($colorBrand, 5%) 100%);
+						color: #fff;
+						padding: 6px 12px;
+						margin-bottom: 0;
+						margin-left: 5px;
+						font-size: 14px;
+					}
+				}
+			}
+		}
+		
+	}
+
+}

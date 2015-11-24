@@ -1,0 +1,73 @@
+/*
+ * xyGaming
+ *
+ *
+ */
+@import '_h5bp';
+
+/*
+ * Bootstrap        
+ */
+@import 'bootstrap-sass/assets/stylesheets/_bootstrap'; 
+
+/*
+ * Vendor Styles        
+ */
+@import 'vendor/jquery-ui';
+
+/*
+ * XYGaming Styles        
+ */
+@import 'components/components';
+
+html,
+body {
+  width: 100%;
+  height: 100%;         
+  margin: 0;
+  padding: 0;     
+}            
+
+body {
+  position: relative;
+  font-family: myriad-pro, sans-serif, helvetica,arial,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: #f1f1f1;
+  color: #404040;
+  box-sizing: border-box;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  &.logged-out {
+    background-color: #fff;
+  }
+}
+
+.xywrap {
+  min-height: 100vh;
+  position: relative;
+}
+                 
+// spaghetti code specific to xygaming 
+a,
+a:hover {
+  color: $colorBrand;
+}
+#challenge_toggle {  
+  padding-right: 70px;
+}
+.fancy-toggle {
+  display: inline-block;
+  width: 53px;
+  height: 20px;
+  background: url('../bundles/xygamingsite/images/toggle_off.png') 0 0 no-repeat;
+  vertical-align: top;
+  position: relative;
+  top: 10px;  
+}
+.fancy-toggle.checked {
+  background: url('../bundles/xygamingsite/images/toggle_on.png') 0 0 no-repeat;
+}
+.main-content {
+  padding-top: 40px;
+}

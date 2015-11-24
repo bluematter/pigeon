@@ -1,0 +1,43 @@
+/**
+ * XyGaming Promotions Carousel
+ *
+ */
+#xygaming-promotions-carousel  {
+  height: 355px;
+  position: relative;
+  overflow: hidden;
+}
+#xygaming-promotions-carousel .carousel-caption {
+  background-color: rgba(0,0,0,0.8);
+  left: 0;
+  right: 0;
+  padding: 8px;
+  text-align: center;
+  height: 60px;
+}
+#xygaming-promotions-carousel .carousel-caption p {
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  //margin-left: 64px;
+}
+#xygaming-promotions-carousel .carousel-control.left,
+#xygaming-promotions-carousel .carousel-control.right {
+  background: none;
+  width: 64px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 32px;
+  position: absolute;
+  bottom: 20px;
+  top: auto;
+  opacity: 1;
+  z-index: 10;
+  text-align: center;
+}
+#xygaming-promotions-carousel .carousel-control.left {
+  left: 0px;
+}
+#xygaming-promotions-carousel .carousel-control.right {
+  right: 0px;
+}

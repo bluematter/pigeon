@@ -1,0 +1,211 @@
+section.xygaming-landing-section {
+	padding: 60px 10px;
+	&:nth-child(even) {
+		background-color: #f9f9fa;
+	}
+	.section-title {
+		text-align: center;
+		margin-bottom: 30px;
+		i {
+            color: $colorBrand;
+            font-size: 25px;
+            vertical-align: middle;
+            margin-right: 10px;
+		}
+		h1 {
+		    font: 300 35px/52px "Open Sans", "open-sans", sans-serif;
+		    color: #323a45;
+		    display: inline-block;
+		    vertical-align: middle;
+	    }
+	}
+	.image-module {
+		margin: 30px auto 60px;
+		padding: 0;
+		img {
+			max-width: 100%;
+			display: block;
+			margin: auto;
+		}
+	}
+	.section-list {
+		list-style-type: none;
+		li {
+			font-size: 18px;
+			padding-bottom: 40px;
+			padding-left: 30px;
+			position: relative;
+
+			color: #747c83;
+			font-family: 'Open Sans';
+
+			height: 100px;
+			line-height: 1.2em;
+			&:before {
+				content: "";
+				width: 10px;
+				height: 10px;
+				background-color: #4eb748;
+				border: 2px solid #4eb748;
+				border-radius: 100%;
+				position: absolute;
+				display: block;
+				left: 0;
+				top: 7px;
+				z-index: 1;
+			}
+			&:after {
+				content: "";
+				width: 1px;
+				height: 100%;
+				background-color: #ccc;
+				position: absolute;
+				left: 4.6px;
+				top: 7px;
+			}
+			&:last-child {
+				&:after {
+					content: "";
+					opacity: 0;
+				}
+			}
+		}
+	}
+	.games-box {
+		img {
+			box-shadow: 1px 2px 2px 0 rgba(0,0,0,0.4);
+			margin: 10px 15px;
+		}
+	}
+}
+
+section.xygaming-landing-section.dark--section {
+	background-color: $colorBrand !important;
+	.backstretch img {
+		opacity: 0.05;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+	.section-title {
+		h1 {
+		    color: #f0f0f0;
+	    }
+	}
+}
+
+// responsive styles
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	section.xygaming-landing-section {
+		padding: 85px 0;
+		.section-title {
+			margin-bottom: 50px;
+			text-align: left;
+		}
+		.image-module {
+			margin: 0;
+			img {
+				width: 415px;
+				&.img-left {
+					float: left;
+				}
+				&.img-right {
+					float: right;
+				}
+				&.instant-chat {
+					width: 490px;
+					height: 300px;
+				}
+			}
+		}
+		.section-list {
+			list-style-type: none;
+			li {
+				font-size: 20px;
+				padding-bottom: 40px;
+				padding-left: 30px;
+				position: relative;
+
+				color: #747c83;
+				font-family: 'Open Sans';
+
+				height: 100px;
+				line-height: 1.2em;
+				&:before {
+					content: "";
+					width: 10px;
+					height: 10px;
+					background-color: #4eb748;
+					border: 2px solid #4eb748;
+					border-radius: 100%;
+					position: absolute;
+					display: block;
+					left: 0;
+					top: 7px;
+					z-index: 1;
+				}
+				&:after {
+					content: "";
+					width: 1px;
+					height: 100%;
+					background-color: #ccc;
+					position: absolute;
+					left: 4.6px;
+					top: 7px;
+				}
+				&:last-child {
+					&:after {
+						content: "";
+						opacity: 0;
+					}
+				}
+			}
+		}
+		.games-box {
+			display: flex;
+			justify-content: space-between;
+			img {
+				&:first-child {
+					margin-left: 0;
+				}
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}
+
+
+
+// @media screen and (max-width: 760px) {
+// 	section.xygaming-landing-section {
+// 	    padding: 70px 0;
+// 	    .section-title {
+// 	    	text-align: center;
+// 	    	h1 {
+// 	    		font-size: 28px;
+// 	    	}
+// 	    }
+//     }
+
+// 	.image-module { 
+// 		padding: 0 !important;
+// 		margin-bottom: 50px;
+// 	}
+// }

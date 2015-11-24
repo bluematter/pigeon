@@ -1,0 +1,78 @@
+/**
+*
+* Main Stylesheet
+*
+**/
+
+@import '_utils';
+@import '_normalize';
+@import '_global';
+
+// Base
+@import '_base';
+
+// Color Palette
+@import '_palette';
+
+// Modules
+@import '_modules/_xygaming';
+@import '_modules/_xygaming-page-hero';
+@import '_modules/.xygaming-404';
+@import '_modules/_xygaming-news-box';
+@import '_modules/_xygaming-login';
+@import '_modules/_xygaming-adverts-news';
+@import '_modules/_xygaming-cashier-view';
+@import '_modules/_xygaming-messaging';
+@import '_modules/_xygaming-dropdowns';
+@import '_modules/_xygaming-news-carousel';
+@import '_modules/_xygaming-promotions-carousel';
+@import '_modules/_xygaming-panel';
+@import '_modules/_xygaming-table';
+@import '_modules/_xygaming-profile-header';
+@import '_modules/_xygaming-my-games';
+@import '_modules/_xygaming-game-zone-header';
+@import '_modules/_xygaming-match-history';
+@import '_modules/_xygaming-challenge-panel';
+@import '_modules/_xygaming-featured-games';
+@import '_modules/_xygaming-featured-promotion';
+@import '_modules/_xygaming-chat';
+@import '_modules/_xygaming-modal';
+@import '_modules/_xygaming-help-tour';
+@import '_modules/_xygaming-twitter-feed';
+
+// Components
+@import '_components/_scroll-up';
+@import '_components/_xygaming-battle-ids';
+@import '_components/_themify-icons';
+@import '_components/_social-icons-block';
+@import '_components/_social-buttons';
+@import '_components/_bootstrap-select';
+@import '_components/_bootstrap-datetimepicker';
+@import '_components/_star-rating';
+@import '_components/_form';
+@import '_components/_list';
+@import '_components/_flex';
+@import '_components/_nav';
+@import '_components/_breadcrumb';
+@import '_components/_typography';
+@import '_components/_button';
+@import '_components/_table';
+
+// Pages
+@import '_pages/_xygaming-challenge-page';
+@import '_pages/_xygaming-landing-page';
+@import '_pages/_xygaming-about';
+@import '_pages/_xygaming-register';
+@import '_pages/_xygaming-help';
+@import '_pages/_xygaming-game-select';
+
+// Perfect Scrollbar
+@import '_perfect-scrollbar';
+
+// Layout
+@import '_layout/_xygaming-nav';
+@import '_layout/_xygaming-sidebar';
+@import '_layout/_xygaming-footer';
+
+// Make sure this is last to override anything else :)
+@import '_helper';

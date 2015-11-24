@@ -1,0 +1,333 @@
+.messages--view {
+
+	nav.mail-nav {
+		width: 20%;
+		float: left;
+		.mail-nav-wrapper {
+		    ul {
+		        li {
+					a {
+						color: #404040;
+						border-left: 2px solid transparent;
+						padding: 4px 10px;
+						font-size: 16px;
+						position: relative;
+						display: block;
+						padding: 10px 15px;
+						&:focus, &.active {
+							font-weight: 600;
+						}
+					}
+		        }
+		    }
+		    .compose {
+		    	padding: 10px 15px;
+			    .compose-button {
+			    	background-color: $colorBrand;
+			    	border: 1px solid darken($colorBrand, 5%);
+			    	background:linear-gradient(to bottom, $colorBrand 0%, darken($colorBrand, 1%) 49%, darken($colorBrand, 2%) 50%, darken($colorBrand, 5%) 100%);
+			    	color: #fff;
+			    	display: block;
+			    	margin: 0 auto;
+			    	padding: 5px 30px;
+			    	width: 100%;
+			    }
+		    }
+		}
+    }
+
+	.mail-page-main {
+		width: 80%;
+		border-left: 1px solid #ddd;
+		float: left;
+		section.mail-section {
+            display: none;
+            &.active {
+            	display: block;
+            }
+		}
+		section.thread-section {
+			.mail-page-body {
+				padding: 25px;
+			}
+		}
+		section.mail-section, section.thread-section {
+			.mail-page-heading {
+				border-bottom: 1px solid #ddd;
+				padding: 16px;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+				h2 {
+				  font-weight: 600;
+				  font-size: 20px;
+			    }
+			}
+			.mail-page-body {
+				h3 {
+					font-weight: 600;
+				}
+				.mail-section-title {
+					margin-bottom: 6px;
+					font-weight: 600;
+				}
+			}
+			.mail-account-data {
+				padding: 30px 15px;
+				ul {
+					li {
+						list-style: none;
+						font-size: 16px;
+						display: table;
+						width: 320px;
+						&.total {
+							font-weight: bold;
+						}
+						.data-cell-right, .data-cell-left {
+							display: table-cell;
+							vertical-align: middle;
+							white-space: nowrap;
+							text-align: left;
+						}
+						.data-cell-left {
+                            width: 30%;
+						}
+						.data-cell-right {
+                            width: 70%;
+                            .edit-info {
+                            	color: $colorBrand;
+                            	text-decoration: underline;
+                            }
+						}
+					}
+				}
+			}
+			.message-blob {
+				margin-bottom: 25px;
+				padding: 15px;
+				max-height: 350px;
+			    overflow-y: scroll;
+			    > div > div:last-child {
+			    	.message-item {
+			    		border-bottom: 0;
+			    	}
+			    }
+				.message-item {
+					padding: 30px;
+					padding-bottom: 50px;
+					position: relative;
+					width: 100%;
+					margin-bottom: 30px;
+					&:before, &:after {
+						content: "";
+						display: block;
+						position: absolute;
+						width: 40%;
+						height: 1px;
+						background-color: #ddd;
+						bottom: 0;
+					}
+					&:before {
+						left: 0;
+					}
+					&:after {
+						right: 0;
+					}
+					.moment {
+						text-align: center;
+						color: #aaa;
+						position: absolute;
+						bottom: -8px;
+						left: 0;
+						right: 0;
+						margin: 0 auto;
+						font-size: 12px;
+					}
+				}
+			}
+			textarea.form-control {
+				padding: 30px;
+			}
+			.form-control, .message-blob {
+			    border: 1px solid #c3c3c3;
+			    box-shadow: inset 0 0 2px 0px rgba(0, 0, 0, 0.1);
+			    background: -webkit-linear-gradient(bottom, #ededed 0%, #fefefe 100%);
+			    background: linear-gradient(to top, #ededed 0%, #fefefe 100%);
+			}
+		}
+        
+		#inbox, #sent {
+			.xygaming-table {
+				.empty {
+					text-align: center;
+					padding: 25vh 0;
+				}
+				table {
+					padding-top: 0;
+					margin-top: 0;
+					tr {
+						&.read {
+							td {
+								background-color: #f5f5f5;
+							}
+						}
+						&.unread {
+							font-weight: 600;
+					    }
+					    a {
+					    	text-decoration: none;
+					    	color: inherit;
+					    }
+						th {
+							border-top: 0;
+						}
+						td {
+						    text-align: left;
+						}
+					}
+				}
+			}
+			.mail-navigator {
+				border-top: 1px solid #ddd;
+				padding: 10px 20px;
+				.nav-table {
+					display: table;
+				}
+				.page-numbers {
+                    margin-right: 20px;
+                    font-weight: bold;
+                    display: table-cell;
+                    vertical-align: middle;
+                    padding: 0 25px;
+				}
+				.change-page-buttons {
+					display: table-cell;
+					.left-nav, .right-nav {
+						background-color: $colorBrand;
+						border: 1px solid darken($colorBrand, 5%);
+						background:linear-gradient(to bottom, $colorBrand 0%, darken($colorBrand, 1%) 49%, darken($colorBrand, 2%) 50%, darken($colorBrand, 5%) 100%);
+						color: #fff;
+						cursor: pointer;
+						display: table-cell;
+						width: 22px;
+						height: 24px;
+						i {
+							display: block;
+						    text-align: center;
+						    font-size: 20px;
+						    position: relative;
+						}
+					}
+					.left-nav {
+                        right: 5px;
+                        position: relative;
+                        i {
+                        	left: -2px;
+                        }
+					}
+					.right-nav {
+					}
+				}
+			}
+		}
+		
+    }
+
+}
+
+.compose-message--view {
+	.modal-content {
+		border-radius: 0;
+	    border: 1px solid #aaa;
+	}
+	.mail-page-heading {
+		border-bottom: 1px solid #ddd;
+		padding: 16px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		h2 {
+		  font-weight: 600;
+		  font-size: 20px;
+	    }
+	}
+	.mail-page-body {
+		padding: 25px;
+	}
+	textarea.form-control {
+		padding: 6px;
+	}
+	.form-control, .message-blob {
+	    border: 1px solid #c3c3c3;
+	    box-shadow: inset 0 0 2px 0px rgba(0, 0, 0, 0.1);
+	    background: -webkit-linear-gradient(bottom, #ededed 0%, #fefefe 100%);
+	    background: linear-gradient(to top, #ededed 0%, #fefefe 100%);
+	}
+}
+
+.inputosaurus-container {
+  background-color: #fff;
+  border: 1px solid #bcbec0;
+  margin: 0 5px 0 0;
+  padding: 0 3px;
+  display: inline-block;
+  cursor: text;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.inputosaurus-container li {
+  display: block;
+  float: left;
+  overflow: hidden;
+  margin: 2px 2px 0;
+  padding: 2px 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  background-color: #e5eff7;
+  border: #a9cae4 solid 1px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  color: #5b9bcd;
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.75) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.75) inset;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.75) inset;
+  line-height: 20px;
+  cursor: default;
+}
+.inputosaurus-container li.inputosaurus-selected { background-color: #bdd6eb; }
+.inputosaurus-container li a {
+  font-size: 16px;
+  color: #5b9bcd;
+  padding: 1px;
+  text-decoration: none;
+  outline: none;
+}
+.inputosaurus-container .inputosaurus-input {
+  border: none;
+  box-shadow: none;
+  background-color: #fff;
+  margin-top: 3px;
+}
+.inputosaurus-container .inputosaurus-input input {
+  border: none;
+  height: 23px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555;
+  margin: 0;
+  outline: none;
+  padding: 0 0 1px 1px;
+  width: 25px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.inputosaurus-container .inputosaurus-input input:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.inputosaurus-input-hidden { display: none; }

@@ -1,0 +1,78 @@
+.social-icons-block {
+	background-color: transparent;
+	border: transparent;
+	box-shadow: 0 0 0 0;
+	height: 50px;
+	ul {
+		display: flex;
+		justify-content: center;
+		padding: 0;
+	    margin: 0;
+	    a {
+	    	margin: 5px;
+	    }
+		li {
+			background-color: #fff;
+			border: 0;
+			box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+			cursor: pointer;
+		    list-style: none;
+		    height: 48px;
+		    width: 52px;
+		    i {
+		    	color: #fff;
+		    	text-align: center;
+		    	display: block;
+		    	position: relative;
+		    	top: 50%;
+		    	transform: translateY(-50%);
+		    	font-size: 23px;
+		    }
+		    &.twitter {
+                background-color: #55acee;
+                &:hover {
+                	background-color: #fff;
+                	i {
+                	  color: #55acee;
+                	}
+                }
+		    }
+		    &.facebook {
+                background-color: #3a5795;
+                &:hover {
+                	background-color: #fff;
+                	i {
+                	  color: #3a5795;
+                	}
+                }
+		    }
+		    &.twitch {
+                background-color: #6441a5;
+                &:hover {
+                	background-color: #fff;
+                	i {
+                	  color: #6441a5;
+                	}
+                }
+		    }
+		    &.youtube {
+                background-color: #cc181e;
+                &:hover {
+                	background-color: #fff;
+                	i {
+                	  color: #cc181e;
+                	}
+                }
+		    }
+		    &.google {
+                background-color: #d73d32;
+                &:hover {
+                	background-color: #fff;
+                	i {
+                	  color: #d73d32;
+                	}
+                }
+		    }
+		}
+	}
+}

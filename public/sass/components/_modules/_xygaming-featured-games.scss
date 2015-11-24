@@ -1,0 +1,78 @@
+// featured games
+#featured-games {
+  padding-top: 40px;
+  padding-bottom: 8px;
+  height: 196px;
+  .featured-game-icons {
+    padding: 43px 11px 0;
+    .featured-icon {
+      padding: 0 !important;
+    }
+    a {
+      display: block;
+      text-align: center;
+      width: 136px;
+      height: 136px;
+      margin: 0 auto;
+      position: relative;
+      &:before {
+        content: "";
+        background-color: rgba(0,0,0,0);
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        transition: 0.4s background-color ease-in-out;
+      }
+      &:after {
+        content: "\f11b";
+        color: transparent;
+        display: block;
+        position: absolute;
+        transition: 0.6s background-color ease-in-out;
+        display: inline-block;
+        font-family: FontAwesome;
+        font-size: 30px;
+        text-rendering: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        right: 0;
+        transition: 0.4s color ease-in-out;
+      }
+      &:hover {
+        &:before {
+          background-color: rgba(0,0,0,0.5);
+        }
+        &:after {
+          color: #fff;
+        }
+      }
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+}
+.xygaming-panel.featured-game-buttons {
+  border: none;
+  background: none;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.xygaming-panel.featured-game-buttons a:first-child {
+  margin-top: 0;
+}
+.xygaming-panel.featured-game-buttons a {
+  margin-top: 8px;
+  display: block;
+  height: 60px;
+  padding-left: 52px;
+  img.add-friends {
+    position: absolute;
+    bottom: 0;
+    left: 7px;
+  }
+}

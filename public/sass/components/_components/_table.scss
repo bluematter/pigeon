@@ -1,0 +1,13 @@
+/**
+*
+* Table
+*
+**/
+
+.table {
+  display: table;
+  .table-cell {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
