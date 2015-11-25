@@ -26,15 +26,16 @@ passport.deserializeUser(function(id, done) {
 /**
  * Sign in using Email and Password.
  */
-passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
-  email = email.toLowerCase();
-  User.findOne({ email: email }, function(err, user) {
-    if (!user) return done(null, false, { message: 'Email ' + email + ' not found'});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  username = username.toLowerCase();
+  User.findOne({ username: username }, function(err, user) {
+    if (!user) return done(null, false, { message: 'Username ' + username + ' not found'});
     user.comparePassword(password, function(err, isMatch) {
       if (isMatch) {
         return done(null, user);
       } else {
-        return done(null, false, { message: 'Invalid email or password.' });
+        return done(null, false, { message: 'Invalid username or password.' });
       }
     });
   });

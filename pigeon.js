@@ -40,6 +40,7 @@ var logger = bunyan.createLogger({
  */
 
 var secrets = require('./config/secrets');
+var passportConf = require('./config/passport');
 
 
 /**
@@ -123,9 +124,9 @@ app.use(session({
     client: redisSessionClient
 })
 }));
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use(function (req, res, next) {
     res.locals.user = req.user;
     next();

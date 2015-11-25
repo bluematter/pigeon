@@ -1,0 +1,12 @@
+<h1>Welcome to the chat {{me.username}}</h1>
+
+<div class="is--online">
+    <ul>
+    	{{#each friends}}
+    	    <li class="chat-with-friend-button" data-handle="{{this.username}}">{{this.username}}</li>
+    	{{/each}}
+    </ul>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="public/scripts/direct_chat_app.js"></script>

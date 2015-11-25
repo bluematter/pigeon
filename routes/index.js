@@ -10,6 +10,8 @@ var lupus = require('lupus');
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
 var secrets = require('../config/secrets');
+var passport = require('passport');
+var User = require('../models/User');
 
 /**
  * Defines routes for application
@@ -31,13 +33,11 @@ function Routes (app, redisSessionClient) {
   */
   
   // home login route
-  app.get('/', utils.authenticated, function(req, res) {
-
-    console.log(req.user);
+  app.get('/', function(req, res) {
 
     // check if user
     if(req.user) {
-      res.redirect('/chat');
+      res.redirect('/app');
     } else {
       res.render('home');
     }
@@ -45,35 +45,23 @@ function Routes (app, redisSessionClient) {
   });
   
   // chat page route
-  app.get('/chat', utils.authenticated, function(req, res) {
+  app.get('/app', function(req, res) {
 
     // check if user
     if(req.user) {
-      redisSessionClient.keys("users:*", function(err, users) {
-        if(err) {
-          console.log(err);
-          return;
-        }
-        
-        // delete the requesting user from users
-        var index = users.indexOf("users:"+req.user.username);
-        users.splice(index, 1);
 
-        // turn redis response into objects
-        var friends = users.map(function(user) {
-          var theFriends = { username: user.split(':')[1] };
-          console.log(theFriends);
-          return theFriends;
-        });
-        
-        // create obj for the template
-        var chat = {
-          username: req.user.username,
-          friends: friends
+      User.find({}, function(err, users) {
+        if(err)
+          res.send('There was an error fetching the users');
+
+        var app = {
+          me: req.user,
+          friends: users
         };
 
-        res.render('chat', chat);
+        res.render('app', app);
       });
+
     } else {
       res.redirect('/');
     }
@@ -88,34 +76,55 @@ function Routes (app, redisSessionClient) {
 
   /*
   |--------------------------------------------------------------------------
-  | Provide a route for chat usernames
+  | Provide user login
   |--------------------------------------------------------------------------
   */
 
-  app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
+  app.post('/login', passport.authenticate('local', { 
+    successRedirect: '/', 
+    failureRedirect: '/login', 
+    failureFlash: true })
+  );
+  
+  /*
+  |--------------------------------------------------------------------------
+  | Provide user signup
+  |--------------------------------------------------------------------------
+  */
 
-  app.post('/api/login', function(req, res) {
-    
-    // check if username exists
-    redisSessionClient.hget("users:"+req.body.attemtedUserName, "username:"+req.body.attemtedUserName, function(err, user) {
-      if(err)
-        return;
+  app.post('/signup', function(req, res, next) {
 
-      if(user) {
-        res.status(500).send('Sorry the username exists, pick another one please.');
-      } else {
-        
-        // user does not exist lets save the user
-        redisSessionClient.hmset("users:"+req.body.attemtedUserName, "username", req.body.attemtedUserName, function() {
-          req.user = {};
-          req.user.username = req.body.attemtedUserName;
-          res.sendStatus(200);
-        });
-
-      }
+    var user = new User({
+      username: req.body.username,
+      password: req.body.password
     });
-    
+
+    User.findOne({ username: req.body.username }, function(err, existingUser) {
+      if (existingUser) {
+        req.flash('errors', { msg: 'Account with that username already exists.' });
+        return res.redirect('/');
+      }
+      user.save(function(err) {
+        if (err) return next(err);
+        req.logIn(user, function(err) {
+          if (err) return next(err);
+          res.redirect('/');
+        });
+      });
+    });
   });
+
+  /*
+  |--------------------------------------------------------------------------
+  | Provide user logout
+  |--------------------------------------------------------------------------
+  */
+
+  app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
+
   
   /*
   |--------------------------------------------------------------------------

@@ -74,37 +74,29 @@ function Sockets(server, redis, redisSessionClient) {
     });
 
     // authorize to see who the user is, relies on proper cookies
-    var authentication = function (handshake, callback) {
-        
-        var cookies = cookie.parse(handshake.headers.cookie);
-        handshake.headers.pigeon = {
-            user: {username: cookies.username}
-        };
-
-        return callback(null, {});
-
-    };
-
-    var testAuthentication = function (handshake, callback) {
-
-        logger.debug('IO test authentication, setting headers.');
-        var session = '_sf2_attributes|a:4:{s:18:"_csrf/authenticate";s:43:"kE_njB_G-iDsjp200suLN1TI52EqeCwGegpn_pKUGPA";s:8:"username";s:5:"UserD";s:14:"_security_main";s:832:"C:74:"Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken":744:{a:3:{i:0;N;i:1;s:4:"main";i:2;s:704:"a:4:{i:0;C:31:"XYGaming\UserBundle\Entity\User":357:{a:13:{i:0;s:88:"bNPcFC1Q+JSGc4nX6DvpqnxSd36NLqOdi+rjTbn2k25Ndzdzn0mD2XDFzRMPhRVBAn+SxS2jgknL+lqGd0tNHw==";i:1;s:31:"cg9h4kqvdr4gk880w44g4kcg4gckwwg";i:2;s:16:"bob@xygaming.com";i:3;s:16:"bob@xygaming.com";i:4;b:0;i:5;b:0;i:6;b:0;i:7;b:1;i:8;s:36:"a430b61d-5826-11e5-8c37-0a0027000000";i:9;N;i:10;N;i:11;s:16:"bob@xygaming.com";i:12;s:16:"bob@xygaming.com";}}i:1;b:1;i:2;a:2:{i:0;O:41:"Symfony\Component\Security\Core\Role\Role":1:{s:47:"';
-        handshake.headers.xygaming = {
-            user: {username: 'UserD'}
-        };
-        return callback(null, session);
-    };
-
-    functions.authentication = authentication;
-    //functions.authentication = testAuthentication;
     io.set('authorization', function(handshake, callback) {
-        functions.authentication(handshake, callback);
-    });
+        if(handshake.headers.cookie) {
+            var cookies = cookie.parse(handshake.headers.cookie);
 
-    socket_server_obj.setTestAuthentication = function() {
-        logger.info('Setting test authentication');
-        functions.authentication = testAuthentication;
-    };
+            // get the user session data from the session store
+            var sid = cookieParser.signedCookie(cookies['connect.sid'], secrets.sessionSecret);
+            redisSessionClient.get('pigeon:' + sid, function (err, session) {
+                if (err || !session) {
+                    return callback('Error retrieving session!', false);
+                }
+                
+                // pass the users session information to the socket
+                var userInfo = JSON.parse(session);
+                handshake.headers.pigeon = {
+                    user: userInfo.passport.user
+                };
+
+                return callback(null, session);
+            });
+        } else {
+            return callback('No cooies', false);
+        }
+    });
 
     // pub/sub adapter
     io.adapter(redisIo({
@@ -116,6 +108,7 @@ function Sockets(server, redis, redisSessionClient) {
     
     io.sockets.on('connection', function (socket) {
         
+        logger.info('FRESH USERNAME', socket.handshake.headers.pigeon.user.username)
         // online tracking with redis
         var userStatus = JSON.stringify({"online": true, "socketId": socket.id});
         redisSessionClient.set("online:"+socket.handshake.headers.pigeon.user.username, userStatus);

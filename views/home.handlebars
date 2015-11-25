@@ -1,28 +1,53 @@
-<div class="row">
-	<div class="enter-username">
-	    <form class="grab">
-	    	<input class="my-name" placeholder="username">
-	    	<input type="submit" style="display: none;">
-	    </form>
-	</div>
+<div class="enter-username">
+    <h4>Login</h4>
+    <form method="POST" action="/login" class="grab-login">
+    	<input type="text" class="my-name" name="username" placeholder="username">
+    	<input type="password" class="my-password" name="password" placeholder="password">
+    	<button type="submit">Login</button>
+    </form>
+</div>
+
+<div class="enter-username">
+    <h4>Signup</h4>
+    <form method="POST" action="/signup" class="grab-signup">
+    	<input type="text" class="my-name" name="username" placeholder="username">
+    	<input type="password" class="my-password" name="password" placeholder="password">
+    	<button type="submit">Login</button>
+    </form>
 </div>
 
 <script type="text/javascript">
-	$('form.grab').submit(function(e) {
-		e.preventDefault();
+	// $('form.grab-login').submit(function(e) {
+	// 	e.preventDefault();
         
-        // grab user name
-		var myName = $(this).find('.my-name').val();
+ //        // grab user data
+	// 	var myName = $(this).find('.my-name').val();
+	// 	var myPassword = $(this).find('.my-password').val();
         
-        // this is cool for fun but there is a big flaw with this
-	    $.post('/api/login', {attemtedUserName: myName})
-	        .done( function(msg) {
-	        	document.cookie = 'username = '+myName;
-	        	document.location.href = '/chat'
-	        })
-	        .fail( function(xhr, textStatus, errorThrown) { 
-	        	alert(xhr.responseText); 
-	        });
+	//     $.post('/login', {username: myName, password: myPassword})
+	//         .done( function(msg) {
+	//         	console.log(msg);
+	//         })
+	//         .fail( function(xhr, textStatus, errorThrown) { 
+	//         	console.log(textStatus);
+	//         });
 
-	});
+	// });
+
+	// $('form.grab-signup').submit(function(e) {
+	// 	e.preventDefault();
+        
+ //        // grab user data
+	// 	var myName = $(this).find('.my-name').val();
+	// 	var myPassword = $(this).find('.my-password').val();
+        
+	//     $.post('/signup', {username: myName, password: myPassword})
+	//         .done( function(msg) {
+	//         	console.log(msg);
+	//         })
+	//         .fail( function(xhr, textStatus, errorThrown) { 
+	//         	console.log(textStatus);
+	//         });
+
+	// });
 </script>
