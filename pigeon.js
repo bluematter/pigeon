@@ -13,16 +13,15 @@ var errorHandler = require('errorhandler');
 var methodOverride = require('method-override');
 var multer = require('multer');
 
+var passport = require('passport');
 var _ = require('lodash');
 var flash = require('express-flash');
 var path = require('path');
 var expressValidator = require('express-validator');
 var exphbs = require('express-handlebars');
-var connectAssets = require('connect-assets');
 var path = require('path');
 var fs = require('fs');
 var https = require('https');
-var mongoose = require('mongoose');
 var exphbs  = require('express-handlebars');
 
 var checkip = require('check-ip-address');
@@ -60,6 +59,7 @@ var RedisStore = connectRedis(session);
 
 // redisSessionClient is used in socket.js
 var redisSessionClient = redis.createClient(secrets.redisDb);
+redisSessionClient.select(1);
 var sessionStore = new RedisStore({prefix: 'pigeon:', client: redisSessionClient});
 redisSessionClient.on('connect', function () {
     logger.info('65:', 'Connected to redis successfully!');
@@ -67,9 +67,10 @@ redisSessionClient.on('connect', function () {
 
 
 /**
- * Connect to MongoDB.
+ * MongoDB.
  */
 
+var mongoose = require('mongoose');
 mongoose.connect(secrets.db);
 mongoose.connection.on('connected', function () {
     logger.info('75:', 'Connected to mongoDB successfully!');
@@ -116,9 +117,15 @@ app.use(cors(corsOptions));
 app.use(session({
   secret: secrets.sessionSecret,
   resave: true,
-  saveUninitialized: true
-}))
-//app.use(flash());
+  saveUninitialized: true,
+  store: new RedisStore({
+    prefix: 'pigeon:', 
+    client: redisSessionClient
+})
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(function (req, res, next) {
     res.locals.user = req.user;
     next();

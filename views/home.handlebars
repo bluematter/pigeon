@@ -11,13 +11,18 @@
 	$('form.grab').submit(function(e) {
 		e.preventDefault();
         
-        // grab user name & set cookie
+        // grab user name
 		var myName = $(this).find('.my-name').val();
-		document.cookie="username="+myName;
         
-        $.post('/api/add', function(result) {
-        	console.log(result);
-        });
+        // this is cool for fun but there is a big flaw with this
+	    $.post('/api/login', {attemtedUserName: myName})
+	        .done( function(msg) {
+	        	document.cookie = 'username = '+myName;
+	        	document.location.href = '/chat'
+	        })
+	        .fail( function(xhr, textStatus, errorThrown) { 
+	        	alert(xhr.responseText); 
+	        });
 
 	});
 </script>

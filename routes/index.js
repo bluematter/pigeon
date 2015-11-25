@@ -8,6 +8,8 @@ var Message = require('../models/Message');
 var Promise = require('promise');
 var lupus = require('lupus');
 var cookie = require('cookie');
+var cookieParser = require('cookie-parser');
+var secrets = require('../config/secrets');
 
 /**
  * Defines routes for application
@@ -27,13 +29,55 @@ function Routes (app, redisSessionClient) {
   | Provide routes to render the UI
   |--------------------------------------------------------------------------
   */
+  
+  // home login route
+  app.get('/', utils.authenticated, function(req, res) {
 
-  app.get('/', function(req, res) {
-    res.render('home');
+    console.log(req.user);
+
+    // check if user
+    if(req.user) {
+      res.redirect('/chat');
+    } else {
+      res.render('home');
+    }
+
   });
+  
+  // chat page route
+  app.get('/chat', utils.authenticated, function(req, res) {
 
-  app.get('/chat', function(req, res) {
-    res.render('chat');
+    // check if user
+    if(req.user) {
+      redisSessionClient.keys("users:*", function(err, users) {
+        if(err) {
+          console.log(err);
+          return;
+        }
+        
+        // delete the requesting user from users
+        var index = users.indexOf("users:"+req.user.username);
+        users.splice(index, 1);
+
+        // turn redis response into objects
+        var friends = users.map(function(user) {
+          var theFriends = { username: user.split(':')[1] };
+          console.log(theFriends);
+          return theFriends;
+        });
+        
+        // create obj for the template
+        var chat = {
+          username: req.user.username,
+          friends: friends
+        };
+
+        res.render('chat', chat);
+      });
+    } else {
+      res.redirect('/');
+    }
+
   });
 
 
@@ -48,14 +92,27 @@ function Routes (app, redisSessionClient) {
   |--------------------------------------------------------------------------
   */
 
-  app.post('/api/add', function(req, res) {
+  app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
 
-    // parse cookie inside header
-    var cookies = cookie.parse(req.headers.cookie);
+  app.post('/api/login', function(req, res) {
+    
+    // check if username exists
+    redisSessionClient.hget("users:"+req.body.attemtedUserName, "username:"+req.body.attemtedUserName, function(err, user) {
+      if(err)
+        return;
 
-    // TODO: Add data to redis?
-    redisSessionClient.set("users:"+cookies['connect.sid'], cookies.username, function() {
-      res.json({'success': true});
+      if(user) {
+        res.status(500).send('Sorry the username exists, pick another one please.');
+      } else {
+        
+        // user does not exist lets save the user
+        redisSessionClient.hmset("users:"+req.body.attemtedUserName, "username", req.body.attemtedUserName, function() {
+          req.user = {};
+          req.user.username = req.body.attemtedUserName;
+          res.sendStatus(200);
+        });
+
+      }
     });
     
   });

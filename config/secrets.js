@@ -24,9 +24,9 @@ module.exports = {
 
     db: process.env.MONGODB || 'mongodb://localhost:27017/pigeon',
 
-    sessionSecret: process.env.SESSION_SECRET || 'pigeon_ftw',
+    redisDb: {host: 'redis://127.0.0.1/'},
 
-    redisDb: {host: 'redis://127.0.0.1/1'},
+    sessionSecret: process.env.SESSION_SECRET || 'pigeon_ftw',
 
     corsOptions: {
         credentials: true,

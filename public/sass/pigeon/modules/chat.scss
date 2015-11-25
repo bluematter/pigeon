@@ -1,0 +1,166 @@
+/**
+ * XyGaming Chat Module
+ *
+ */
+
+$colorBrand: #00CCD2;
+
+@keyframes blink {
+  0% {
+    background: #333;
+  }
+  100% {
+    background: #404040;
+  }
+}
+
+#xygaming-chat {
+	.messages {
+	  padding: 45px 25px 15px 15px;
+	  color: #000;
+	  position: relative;
+	  height: 314px;
+	  overflow: hidden;
+	  span.user-name {
+		  font-weight: bold;
+		}
+	}
+	.xygaming-input-bar {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #eee 5%, #ddd 100%);
+    background-color: #d1d1d1;
+    font-size: 16px;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    input {
+    	border: 1px solid #c3c3c3;
+    	box-shadow: inset 0 0 5px 0 rgba(0,0,0,0.2);
+    }
+    .button--send {
+    	background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+    	color: #56a5e2;
+      margin: 0 5px 0 10px;
+      border: 0;
+      box-shadow: 1px 1px 1px 0px #b8b8b8, 0px 0px 1px 0px #ddd;
+      border-radius: 2px;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 3px 12px;
+      text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+    }
+	}
+}
+
+// 1v1 chat
+.xygaming-chat-docker {
+  .xygaming-chat-docker-wrapper {
+    bottom: 0;
+    direction: ltr;
+    height: 25px;
+    left: 0;
+    position: fixed;
+    right: 205px;
+    z-index: 300;
+    .directMessage--view {
+      position: fixed;
+      right: 200px;
+      border-radius: 3px;
+      overflow: hidden;
+      bottom: 0;
+      height: 270px;
+      background-color: #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      border-color: #d8d8d8;
+      border-width: 0 1px;
+      width: 280px;
+      z-index: 300;
+
+      // needs math formula offsets the chat box
+      &:nth-child(1) {
+        right: 200px;
+      }
+      &:nth-child(2) {
+        right: 530px;
+      }
+      &:nth-child(3) {
+        right: 860px;
+      }
+
+      .direct-message-header {
+        background-color: $colorBrand;
+        padding: 3px 10px;
+        color: #fff;
+        &.blink-notify {
+          animation-name: blink;
+          animation-duration: .8s; 
+          animation-timing-function: ease-in-out; 
+          animation-delay: 0;
+          animation-direction: alternate;
+          animation-iteration-count: infinite;
+          animation-fill-mode: none;
+          animation-play-state: running; 
+        }
+        .online-status.online {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 100%;
+          background-color: #17e833;
+        }
+        .close-chat, .minimize-chat {
+          cursor: pointer;
+          display: inline-block;
+        }
+      }
+      .direct-messages {
+        background-color: #fff;
+        height: 204px;
+        width: 100%;
+        padding: 10px;
+        overflow-y: scroll;
+        .message {
+          padding: 6px 0;
+          .time-stamp {
+            color: rgba(0, 0, 0, 0.26);
+            font-size: 11px;
+            font-family: arial;
+            font-weight: bold;
+          }
+        }
+      }
+      .direct-message-input {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        .xygaming-input-bar{
+          background: linear-gradient(to bottom, #e5e5e5 5%, #d5d5d5 100%);
+          background-color: #fff;
+          input {
+            width: 100%;
+            box-shadow: 0 0 0 0;
+            border: 0;
+            border-top: 1px solid #c9d0da;
+            height: 25px;
+          }
+          .button--send {
+            background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+            color: #56a5e2;
+            margin: 0 5px 0 10px;
+            border: 0;
+            box-shadow: 1px 1px 1px 0px #b8b8b8, 0px 0px 1px 0px #ddd;
+            border-radius: 2px;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 3px 12px;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+          }
+        }
+      }
+      &.minimized {
+        transition: 0.5s bottom ease-in-out;
+        bottom: -240px;
+      }
+    }
+  }
+}

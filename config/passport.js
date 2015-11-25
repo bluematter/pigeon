@@ -12,8 +12,6 @@ var secrets = require('./secrets');
 var User = require('../models/User');
 
 // this serializes the user into the session
-// so the user object is stored in the session.passport
-// the problem I had was I was passing user.id
 passport.serializeUser(function(user, done) {
   done(null, user);
 });

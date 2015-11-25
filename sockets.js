@@ -116,8 +116,6 @@ function Sockets(server, redis, redisSessionClient) {
     
     io.sockets.on('connection', function (socket) {
         
-        logger.info('119:', 'Username via cookie: ', socket.handshake.headers.pigeon.user.username);
-        
         // online tracking with redis
         var userStatus = JSON.stringify({"online": true, "socketId": socket.id});
         redisSessionClient.set("online:"+socket.handshake.headers.pigeon.user.username, userStatus);
@@ -131,9 +129,6 @@ function Sockets(server, redis, redisSessionClient) {
             }
         });
         
-        // Temporary way to update the users list
-        io.emit("new user connected", {whoConnected: socket.handshake.headers.pigeon.user.username})
-
         // store the users & socket.id into objects
         users[socket.handshake.headers.pigeon.user.username] = socket.id;
 
@@ -265,8 +260,8 @@ function Sockets(server, redis, redisSessionClient) {
                     socket.emit('direct suspension message', {message: 'You are suspended for a short time...', class: 'color--red', chatID: chatID});
                     clearTimeout(timeout);
                     timeout = setTimeout(function () {
-                    socket.directDisabled = false;
-                    socket.emit('direct suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green', chatID: chatID});
+                        socket.directDisabled = false;
+                        socket.emit('direct suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green', chatID: chatID});
                     }, 10000);
                 } else {
                     if (rateLimit()) {
