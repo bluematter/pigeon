@@ -1,4 +1,6 @@
-var DirectChatApp = require('./src/app.js');
-var XYGamingDirectChat = new DirectChatApp();
+"use strict";
 
-XYGamingDirectChat.start();
+let DirectChatApp = require('./src/app.js');
+let PigeonChat = new DirectChatApp();
+
+PigeonChat.start();

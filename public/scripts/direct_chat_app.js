@@ -17561,168 +17561,139 @@ return jQuery;
 }.call(this));
 
 },{}],16:[function(require,module,exports){
-var DirectChatApp = require('./src/app.js');
-var XYGamingDirectChat = new DirectChatApp();
+"use strict";
 
-XYGamingDirectChat.start();
+let DirectChatApp = require('./src/app.js');
+let PigeonChat = new DirectChatApp();
+
+PigeonChat.start();
+
 },{"./src/app.js":17}],17:[function(require,module,exports){
 /*
 |--------------------------------------------------------------------------
-| XYGaming direct messages app core
+| Pigeon direct messages app
 |--------------------------------------------------------------------------
 |
 |
 */
-    
-var ChatParameters = require('../../params');
 
-var $ = require('jquery');
-var Backbone = require('backbone');
-var _ = require('underscore');
+"use strict"
+
+// params
+;
+let ChatParameters = require('../../params');
+
+// libs
+let $ = require('jquery');
+let Backbone = require('backbone');
+let _ = require('underscore');
 Backbone.$ = $;
-var Marionette = require('backbone.marionette');
+let Marionette = require('backbone.marionette');
+let socket = io.connect(ChatParameters.url_base, { 'connect timeout': 10000 });
 
-var socket = io.connect(ChatParameters.url_base, {'connect timeout': 10000});
-var DirectMessageCollection = require('./collections/DirectMessageCollection');
-var DirectMessagesView = require('./views/directMessagesView');
+// collection & view
+let DirectMessageCollection = require('./collections/DirectMessageCollection');
+let DirectMessagesView = require('./views/directMessagesView');
 
-module.exports = DirectChatApp = function DirectChatApp() {};
+// chat class
+class PigeonChat {
 
-// Extend Chatapp with a start method
-DirectChatApp.prototype.start = function() {
+  constructor() {
 
-  // Extend marionette
-  DirectChatApp.core = new Marionette.Application();
-  
-  // Initialize app
-  DirectChatApp.core.on('start', function () {
-    DirectChatApp.core.vent.trigger('DirectChatApp:log', 'DirectChatApp: Initializing');
-    DirectChatApp.core.addRegions({
-      directMessagesRegion: '.xygaming-chat-docker-wrapper'
-    });
-    DirectChatApp.core.vent.trigger('DirectChatApp:start');
-  });   
-  
-  // Start app logic
-  DirectChatApp.core.vent.bind('DirectChatApp:start', function(options){
-    DirectChatApp.core.vent.trigger('DirectChatApp:log', 'DirectChatApp: Starting');
+    // initialize marionette
+    this.core = new Marionette.Application();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Tell the server who my friends are and find out their status
-    |--------------------------------------------------------------------------
-    */
-    socket.on('connect', function (){
-      console.info('socket connected');
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | TEMP: User created, need a way to add to DOM
-    |--------------------------------------------------------------------------
-    */
-    
-    // append new user connection to dom in a shitty way
-    socket.on('new user connected', function(data) {
-      $('.is--online ul').append('<li class="chat-with-friend-button" data-handle="'+data.whoConnected+'">'+data.whoConnected+'</li>');
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Initiate a chat with a friend
-    |--------------------------------------------------------------------------
-    */
-    $(document).on('click', '.is--online .chat-with-friend-button', function(e) {
-      e.preventDefault();
-      
-      function readCookie(name) {
-          var nameEQ = name + "=";
-          var ca = document.cookie.split(';');
-          for(var i=0;i < ca.length;i++) {
-              var c = ca[i];
-              while (c.charAt(0)==' ') c = c.substring(1,c.length);
-              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-          }
-          return null;
-      }
-
-      // identify the user we want to chat with, and let the server know we want to chat
-      var user = $(this).data('handle');
-      var me = readCookie('username'); // read cookie for username
-      var uniqueChatID = [me, user].sort().join(''); // need a unique ChatID
-
-      console.log(uniqueChatID);
-      
-      // pull in mongoDB data for a particular chat
-      if($('#'+uniqueChatID).length == 0) {
-        var messages = new DirectMessageCollection([], { chatID: uniqueChatID });
-        messages.fetch({
-          success: function(messages) {
-            var directMessagesView = new DirectMessagesView({ collection: messages, chatID: uniqueChatID, talkingTo: user });
-            $('.xygaming-chat-docker-wrapper').append(directMessagesView.render().el);
-          },
-          error: function() {
-            // there is no data
-            alert('No data handle this');
-          }
-        });
-      } else {
-        return false;
-      }
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Notify the user when someone initiates a chat
-    |--------------------------------------------------------------------------
-    */
-    socket.on('new oneOnOneMessage', function(data) {
-      // pull in mongoDB data for an initated chat
-      if($('#'+data.chatID).length == 0) {
-        var messages = new DirectMessageCollection([], { chatID: data.chatID });
-        messages.fetch({
-          success: function(messages) {
-            // this chat does not exist yet so we need to boot a new one
-            var directMessagesView = new DirectMessagesView({ collection: messages, chatID: data.chatID, talkingTo: data.nickname });
-            $('.xygaming-chat-docker-wrapper').append(directMessagesView.render().el);
-          },
-          error: function() {
-            // there is no data
-            alert('No data handle this');
-          }
-        });
-      } else {
-        return false;
-      }
-    });
-
-  });
-  
-  // Fancy logger
-  DirectChatApp.core.vent.bind('DirectChatApp:log', function(msg) {
-    console.log(msg);
-  });
-  
-  // Boot marionette
-  DirectChatApp.core.start();
-
-};
-
-// parse the g_InitialData.friends_with_games object
-function sendFriends(friendsObj) {
-  
-  var allFriends = [];
-  var keys = Object.keys(friendsObj);
-
-  for (var i = 0; i < keys.length; i++) {
-    allFriends.push({
-      handle: friendsObj[keys[i]].handle
+    // define the app regions
+    this.core.addRegions({
+      directMessagesRegion: '.pigeon-chat-docker-wrapper'
     });
   }
 
-  return allFriends;
+  start() {
 
-}
+    // start main stuff
+    this.core.vent.trigger('DirectChatApp:log', 'DirectChatApp: Starting');
+
+    // on socket connection
+    socket.on('connect', function () {
+      console.info('socket connected');
+    });
+
+    // chat methods
+    this.sendMessage();
+    this.retriveMessage();
+
+    // boot marionette
+    this.core.start();
+
+    // fancy logger
+    this.core.vent.bind('DirectChatApp:log', function (msg) {
+      console.log(msg);
+    });
+  }
+
+  sendMessage() {
+
+    // when I message someone
+    $(document).on('click', '.is--online .chat-with-friend-button', function (e) {
+      e.preventDefault();
+
+      // understand who is talking
+      let user = $(this).data('handle');
+      let me = $('.my-username').data('username'); // grab my username from HTML
+      let uniqueChatID = [me, user].sort().join(''); // need a unique ChatID
+
+      // check if box exists, grab proper messages
+      if ($('#' + uniqueChatID).length == 0) {
+        let messages = new DirectMessageCollection([], { chatID: uniqueChatID });
+        messages.fetch({
+          success: function (messages) {
+            // pass the messages into the view
+            let directMessagesView = new DirectMessagesView({ collection: messages, chatID: uniqueChatID, talkingTo: user });
+            $('.pigeon-chat-docker-wrapper').append(directMessagesView.render().el);
+          },
+          error: function () {
+            // TODO: Handle this better
+            alert('No data handle this');
+          }
+        });
+      } else {
+        // the chat exists
+        return false;
+      }
+    });
+  }
+
+  retriveMessage() {
+
+    // when someone messages me
+    socket.on('new oneOnOneMessage', function (data) {
+
+      // pull in mongoDB data for an initated chat
+      if ($('#' + data.chatID).length == 0) {
+        let messages = new DirectMessageCollection([], { chatID: data.chatID });
+        messages.fetch({
+          success: function (messages) {
+            // this chat does not exist yet so we need to boot a new one
+            let directMessagesView = new DirectMessagesView({ collection: messages, chatID: data.chatID, talkingTo: data.nickname });
+            $('.pigeon-chat-docker-wrapper').append(directMessagesView.render().el);
+          },
+          error: function () {
+            // TODO: Handle this better
+            alert('No data handle this');
+          }
+        });
+      } else {
+        // the chat exists
+        return false;
+      }
+    });
+  }
+
+};
+
+module.exports = PigeonChat;
+
 },{"../../params":23,"./collections/DirectMessageCollection":18,"./views/directMessagesView":20,"backbone":4,"backbone.marionette":2,"jquery":14,"underscore":15}],18:[function(require,module,exports){
 
 var ChatParameters = require('../../../params');
@@ -17730,17 +17701,17 @@ var messageModel = require('../models/message');
 var Backbone = require('backbone');
 
 module.exports = DirectMessageCollection = Backbone.Collection.extend({
-  model:  messageModel,
-  initialize: function(models, options) {
-  	this.chatID = options.chatID;
+  model: messageModel,
+  initialize: function (models, options) {
+    this.chatID = options.chatID;
   },
-  url: function() {
+  url: function () {
 
-  	// get the proper chat id
-  	return (ChatParameters.url_base + '/api/chat/' + this.chatID + '/messages');
-
+    // get the proper chat id
+    return ChatParameters.url_base + '/api/chat/' + this.chatID + '/messages';
   }
 });
+
 },{"../../../params":23,"../models/message":19,"backbone":4}],19:[function(require,module,exports){
 var Backbone = require('backbone');
 
@@ -17751,21 +17722,21 @@ module.exports = messageModel = Backbone.Model.extend({
 },{"backbone":4}],20:[function(require,module,exports){
 
 var ChatParameters = require('../../../params');
-var socket = io.connect(ChatParameters.url_base, {"connect timeout": 1000});
+var socket = io.connect(ChatParameters.url_base, { "connect timeout": 1000 });
 var Marionette = require('backbone.marionette');
 var $ = require('jquery');
 
 // Chat Message
 var chatMessage = Marionette.ItemView.extend({
-	tagName: 'li',
-	className: 'message',
+  tagName: 'li',
+  className: 'message',
   template: require('../../templates/views/directMessage.hbs')
 });
 
 // Chat View (Timestamp and data can be cleaned up)
 module.exports = chatView = Marionette.CompositeView.extend({
 
-	className: 'directMessage--view',
+  className: 'directMessage--view',
   template: require('../../templates/views/directMessagesView.hbs'),
 
   events: {
@@ -17775,108 +17746,103 @@ module.exports = chatView = Marionette.CompositeView.extend({
     'click .close-chat': 'closeChat'
   },
 
-  initialize: function() {
+  initialize: function () {
     this.clientSocketStatus();
     this.incomingSocketMessages();
     this.on('render', this.rendered);
   },
 
-  rendered: function() {
-    setTimeout(function() {
-      $('.direct-messages').scrollTop($('.direct-messages').prop('scrollHeight'));
+  rendered: function () {
+    setTimeout(function () {
+      $('.direct-message-body').scrollTop($('.direct-message-body').prop('scrollHeight'));
     }, 0);
-    
   },
 
-  clientSocketStatus: function() {
+  clientSocketStatus: function () {
 
-    socket.on('error', function (reason){
+    socket.on('error', function (reason) {
       console.error('Unable to connect Socket.IO', reason);
     });
 
-    socket.on('connect', function (){
+    socket.on('connect', function () {
       console.info('successfully established a working connection');
     });
-
   },
 
-  incomingSocketMessages: function() {
+  incomingSocketMessages: function () {
 
     var self = this;
-    socket.on('new oneOnOneMessage', function(data) {
-      
+    socket.on('new oneOnOneMessage', function (data) {
+
       // make sure this element is the right element to add the message to, since the socket will trigger regardless
-      if(self.$el.find('#'+data.chatID).length) {
+      if (self.$el.find('#' + data.chatID).length) {
         console.log('new oneOnOneMessage Triggered');
 
         // check if it's minimized so we can notify
-        if(self.$el.hasClass('minimized')) {
+        if (self.$el.hasClass('minimized')) {
           self.$el.find('.direct-message-header').addClass('blink-notify');
         }
-        
+
         // generate a timestamp
         var time = new Date();
-        var timeStamp = self.timeParser(time).hours +':'+ self.timeParser(time).minutes;
-        self.collection.add({'nickname': data.nickname, 'message': data.message, 'timeStamp': timeStamp});
-        self.$el.find('.direct-messages').scrollTop(self.$el.find('.direct-messages').prop('scrollHeight'));
+        var timeStamp = self.timeParser(time).hours + ':' + self.timeParser(time).minutes;
+        self.collection.add({ 'nickname': data.nickname, 'message': data.message, 'timeStamp': timeStamp });
+        self.$el.find('.direct-message-body').scrollTop(self.$el.find('.direct-message-body').prop('scrollHeight'));
       }
-
     });
 
     // spam notification
-    socket.on('direct suspension message', function(data) {
-      if(self.$el.find('#'+data.chatID).length) {
-        self.collection.add({'message': data.message, 'class': data.class});
-        self.$el.find('.direct-messages').scrollTop(self.$el.find('.direct-messages').prop('scrollHeight'));
+    socket.on('direct suspension message', function (data) {
+      if (self.$el.find('#' + data.chatID).length) {
+        self.collection.add({ 'message': data.message, 'class': data.class });
+        self.$el.find('.direct-message-body').scrollTop(self.$el.find('.direct-message-body').prop('scrollHeight'));
       }
     });
-
   },
 
-  sendMessage: function(e) {
+  sendMessage: function (e) {
     e.preventDefault();
-    
+
     var self = this;
     var messageInput = this.$el.find('input.message');
     var inputText = messageInput.val().trim();
 
-    if(inputText != '') {
-      
+    if (inputText != '') {
+
       // Check update time
       var time = new Date();
-      var timeStamp = this.timeParser(time).hours +':'+ this.timeParser(time).minutes;
-      
+      var timeStamp = this.timeParser(time).hours + ':' + this.timeParser(time).minutes;
+
       socket.emit('send oneOnOneMessage', {
         message: inputText,
         timeStamp: timeStamp,
         chattingWith: self.options.talkingTo,
         chatID: self.options.chatID
       });
-      
+
       // need to get who I am
       var me = $('li.last.dropdown span').html(); // need a better way to get me
       messageInput.val('');
-      $('.direct-messages').scrollTop($('.direct-messages').prop('scrollHeight'));
+      $('.direct-message-body').scrollTop($('.direct-message-body').prop('scrollHeight'));
     }
-
   },
 
-  minimizeChat: function(e) {
+  minimizeChat: function (e) {
     $(e.currentTarget).addClass('minimized');
     this.$el.addClass('minimized');
   },
 
-  maximumChat: function(e) {
+  maximumChat: function (e) {
     $(e.currentTarget).removeClass('minimized');
     this.$el.removeClass('minimized blink-notify');
     this.$el.find('.direct-message-header').removeClass('minimized blink-notify');
   },
 
-  closeChat: function() {
+  closeChat: function () {
     this.destroy();
   },
 
-  timeParser: function(date) {
+  timeParser: function (date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
@@ -17885,20 +17851,19 @@ module.exports = chatView = Marionette.CompositeView.extend({
       minutes: minutes > 10 ? minutes : '0' + minutes,
       seconds: seconds > 10 ? seconds : '0' + seconds,
       meridiem: hours > 12 ? 'PM' : 'AM'
-    }
+    };
   },
 
-  templateHelpers: function() {
+  templateHelpers: function () {
 
     return {
-      talkingTo: this.options.talkingTo, 
-      chatID: this.options.chatID, 
+      talkingTo: this.options.talkingTo,
+      chatID: this.options.chatID,
       altChatID: this.options.altChatID
-    }
-
+    };
   },
 
-  childViewContainer: ".direct-messages ul",
+  childViewContainer: ".direct-message-body ul",
   childView: chatMessage
 
 });
@@ -17951,7 +17916,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[6,">= 2.0.0-beta.1"],"
     + alias3(((helper = (helper = helpers.altChatID || (depth0 != null ? depth0.altChatID : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"altChatID","hash":{},"data":data}) : helper)))
     + "\" type=\"hidden\">\n\n	<div class=\"direct-message-header\">\n	<div class=\"online-status online\"></div>\n	  <div class=\"talkingTo display-inline-block\">"
     + alias3(((helper = (helper = helpers.talkingTo || (depth0 != null ? depth0.talkingTo : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"talkingTo","hash":{},"data":data}) : helper)))
-    + "</div>\n	  <div class=\"pull-right\">\n		  <div class=\"minimize-chat\">\n            <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaUlEQVQ4T+2TsQ2AMBADz5swAEMwCjMwASzATAxBTzYxSqSIAiheafPd63Uu7Ldsz8AKJGIzZE62k6S8hKewtg9JU5gGCtsF3h7YXoDxx9RT0l5vnyY2C0Ti7DE+r9xcplrnK5IAkBu83VSUgWFzT33FAAAAAElFTkSuQmCC\"/>\n		  </div>\n		  <div class=\"close-chat ml-5\">\n            <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkklEQVQ4T82T0QnDMAxE7zbpCMkGGaWZoB2h2aAbJKNkhGxQb3JBRgZDcbDxT/Qlg97hOyRKegL4AAhoq4dxlBRI2qO5IitpJzk10wAie08BSQeAL8nNrHnQL5JjbrVowYEVwOxA7JNgErnMIBOx+T/Yf1YOsUug20IhxDfJoSrE2qW6zyJ1H1M651+td5+zC15OarOfYberKgQAAAAASUVORK5CYII=\"/>\n		  </div>\n	  </div>\n	</div>\n\n	<div class=\"direct-messages\">\n	  <ul class=\"no-list-style\"></ul>\n	</div>\n\n	<form class=\"direct-message-input submit-message\" >\n	  <div class=\"xygaming-input-bar gaming-chat chat-input\">\n		  <input type=\"text\" class=\"message\" style=\"width: 90%\">\n		  <button type=\"submit\" class=\"button--send\">Send</button>\n		</div>\n	</form>\n</div>";
+    + "</div>\n	  <div class=\"pull-right\">\n		  <div class=\"minimize-chat\">\n            <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaUlEQVQ4T+2TsQ2AMBADz5swAEMwCjMwASzATAxBTzYxSqSIAiheafPd63Uu7Ldsz8AKJGIzZE62k6S8hKewtg9JU5gGCtsF3h7YXoDxx9RT0l5vnyY2C0Ti7DE+r9xcplrnK5IAkBu83VSUgWFzT33FAAAAAElFTkSuQmCC\"/>\n		  </div>\n		  <div class=\"close-chat ml-5\">\n            <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkklEQVQ4T82T0QnDMAxE7zbpCMkGGaWZoB2h2aAbJKNkhGxQb3JBRgZDcbDxT/Qlg97hOyRKegL4AAhoq4dxlBRI2qO5IitpJzk10wAie08BSQeAL8nNrHnQL5JjbrVowYEVwOxA7JNgErnMIBOx+T/Yf1YOsUug20IhxDfJoSrE2qW6zyJ1H1M651+td5+zC15OarOfYberKgQAAAAASUVORK5CYII=\"/>\n		  </div>\n	  </div>\n	</div>\n\n	<div class=\"direct-message-body\">\n	  <ul class=\"no-list-style\"></ul>\n	</div>\n\n	<form class=\"direct-message-input submit-message\" >\n	  <div class=\"chat-input\">\n		  <input type=\"text\" class=\"message\" style=\"width: 90%\">\n		  <button type=\"submit\" class=\"button--send\">Send</button>\n		</div>\n	</form>\n</div>";
 },"useData":true});
 
 },{"hbsfy/runtime":13}],23:[function(require,module,exports){
@@ -17961,4 +17926,5 @@ var ChatParameters = {
 };
 
 module.exports = ChatParameters;
+
 },{}]},{},[16])

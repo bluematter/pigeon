@@ -32,7 +32,7 @@ module.exports = chatView = Marionette.CompositeView.extend({
 
   rendered: function() {
     setTimeout(function() {
-      $('.direct-messages').scrollTop($('.direct-messages').prop('scrollHeight'));
+      $('.direct-message-body').scrollTop($('.direct-message-body').prop('scrollHeight'));
     }, 0);
     
   },
@@ -67,7 +67,7 @@ module.exports = chatView = Marionette.CompositeView.extend({
         var time = new Date();
         var timeStamp = self.timeParser(time).hours +':'+ self.timeParser(time).minutes;
         self.collection.add({'nickname': data.nickname, 'message': data.message, 'timeStamp': timeStamp});
-        self.$el.find('.direct-messages').scrollTop(self.$el.find('.direct-messages').prop('scrollHeight'));
+        self.$el.find('.direct-message-body').scrollTop(self.$el.find('.direct-message-body').prop('scrollHeight'));
       }
 
     });
@@ -76,7 +76,7 @@ module.exports = chatView = Marionette.CompositeView.extend({
     socket.on('direct suspension message', function(data) {
       if(self.$el.find('#'+data.chatID).length) {
         self.collection.add({'message': data.message, 'class': data.class});
-        self.$el.find('.direct-messages').scrollTop(self.$el.find('.direct-messages').prop('scrollHeight'));
+        self.$el.find('.direct-message-body').scrollTop(self.$el.find('.direct-message-body').prop('scrollHeight'));
       }
     });
 
@@ -105,7 +105,7 @@ module.exports = chatView = Marionette.CompositeView.extend({
       // need to get who I am
       var me = $('li.last.dropdown span').html(); // need a better way to get me
       messageInput.val('');
-      $('.direct-messages').scrollTop($('.direct-messages').prop('scrollHeight'));
+      $('.direct-message-body').scrollTop($('.direct-message-body').prop('scrollHeight'));
     }
 
   },
@@ -147,7 +147,7 @@ module.exports = chatView = Marionette.CompositeView.extend({
 
   },
 
-  childViewContainer: ".direct-messages ul",
+  childViewContainer: ".direct-message-body ul",
   childView: chatMessage
 
 });

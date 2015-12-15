@@ -5725,7 +5725,7 @@ button.close {
  * Pigeon Styles        
  */
 /**
- * XyGaming Chat Module
+ * Pigeon Chat Module
  *
  */
 @-webkit-keyframes blink {
@@ -5739,43 +5739,7 @@ button.close {
   100% {
     background: #404040; } }
 
-#xygaming-chat .messages {
-  padding: 45px 25px 15px 15px;
-  color: #000;
-  position: relative;
-  height: 314px;
-  overflow: hidden; }
-  #xygaming-chat .messages span.user-name {
-    font-weight: bold; }
-
-#xygaming-chat .xygaming-input-bar {
-  box-shadow: inset 0px 1px 0px 0px #ffffff;
-  background: linear-gradient(to bottom, #eee 5%, #ddd 100%);
-  background-color: #d1d1d1;
-  font-size: 16px;
-  padding: 5px 0;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center; }
-  #xygaming-chat .xygaming-input-bar input {
-    border: 1px solid #c3c3c3;
-    box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.2); }
-  #xygaming-chat .xygaming-input-bar .button--send {
-    background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
-    color: #56a5e2;
-    margin: 0 5px 0 10px;
-    border: 0;
-    box-shadow: 1px 1px 1px 0px #b8b8b8, 0px 0px 1px 0px #ddd;
-    border-radius: 2px;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 3px 12px;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3); }
-
-.xygaming-chat-docker .xygaming-chat-docker-wrapper {
+.pigeon-chat-docker {
   bottom: 0;
   direction: ltr;
   height: 25px;
@@ -5783,30 +5747,42 @@ button.close {
   position: fixed;
   right: 205px;
   z-index: 300; }
-  .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view {
+  .pigeon-chat-docker .directMessage--view {
     position: fixed;
     right: 200px;
     border-radius: 3px;
     overflow: hidden;
     bottom: 0;
-    height: 270px;
+    height: 310px;
     background-color: #fff;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     border-color: #d8d8d8;
     border-width: 0 1px;
     width: 280px;
     z-index: 300; }
-    .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view:nth-child(1) {
+    .pigeon-chat-docker .directMessage--view.minimized {
+      transition: 0.5s bottom ease-in-out;
+      bottom: -284px; }
+    .pigeon-chat-docker .directMessage--view:nth-child(1) {
       right: 200px; }
-    .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view:nth-child(2) {
+    .pigeon-chat-docker .directMessage--view:nth-child(2) {
       right: 530px; }
-    .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view:nth-child(3) {
+    .pigeon-chat-docker .directMessage--view:nth-child(3) {
       right: 860px; }
-    .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-header {
-      background-color: #00CCD2;
+    .pigeon-chat-docker .directMessage--view .direct-message-header {
+      background-color: #293239;
       padding: 3px 10px;
-      color: #fff; }
-      .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-header.blink-notify {
+      color: #fff;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-justify-content: space-between;
+          -ms-flex-pack: justify;
+              justify-content: space-between; }
+      .pigeon-chat-docker .directMessage--view .direct-message-header.blink-notify {
         -webkit-animation-name: blink;
                 animation-name: blink;
         -webkit-animation-duration: .8s;
@@ -5823,55 +5799,41 @@ button.close {
                 animation-fill-mode: none;
         -webkit-animation-play-state: running;
                 animation-play-state: running; }
-      .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-header .online-status.online {
+      .pigeon-chat-docker .directMessage--view .direct-message-header .online-status.online {
         display: inline-block;
         width: 8px;
         height: 8px;
         border-radius: 100%;
         background-color: #17e833; }
-      .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-header .close-chat, .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-header .minimize-chat {
+      .pigeon-chat-docker .directMessage--view .direct-message-header .close-chat, .pigeon-chat-docker .directMessage--view .direct-message-header .minimize-chat {
         cursor: pointer;
         display: inline-block; }
-    .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-messages {
+    .pigeon-chat-docker .directMessage--view .direct-message-body {
       background-color: #fff;
-      height: 204px;
+      height: 260px;
       width: 100%;
       padding: 10px;
       overflow-y: scroll; }
-      .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-messages .message {
+      .pigeon-chat-docker .directMessage--view .direct-message-body ul.no-list-style {
+        margin: 0;
+        padding: 0; }
+      .pigeon-chat-docker .directMessage--view .direct-message-body .message {
         padding: 6px 0; }
-        .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-messages .message .time-stamp {
+        .pigeon-chat-docker .directMessage--view .direct-message-body .message .time-stamp {
           color: rgba(0, 0, 0, 0.26);
           font-size: 11px;
           font-family: arial;
           font-weight: bold; }
-    .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-input {
+    .pigeon-chat-docker .directMessage--view .direct-message-input {
       position: absolute;
       bottom: 0;
       width: 100%; }
-      .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-input .xygaming-input-bar {
-        background: linear-gradient(to bottom, #e5e5e5 5%, #d5d5d5 100%);
-        background-color: #fff; }
-        .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-input .xygaming-input-bar input {
-          width: 100%;
-          box-shadow: 0 0 0 0;
-          border: 0;
-          border-top: 1px solid #c9d0da;
-          height: 25px; }
-        .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view .direct-message-input .xygaming-input-bar .button--send {
-          background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
-          color: #56a5e2;
-          margin: 0 5px 0 10px;
-          border: 0;
-          box-shadow: 1px 1px 1px 0px #b8b8b8, 0px 0px 1px 0px #ddd;
-          border-radius: 2px;
-          font-size: 15px;
-          font-weight: 600;
-          padding: 3px 12px;
-          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3); }
-    .xygaming-chat-docker .xygaming-chat-docker-wrapper .directMessage--view.minimized {
-      transition: 0.5s bottom ease-in-out;
-      bottom: -240px; }
+      .pigeon-chat-docker .directMessage--view .direct-message-input .chat-input {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex; }
+        .pigeon-chat-docker .directMessage--view .direct-message-input .chat-input input {
+          outline: 0; }
 
 html,
 body {

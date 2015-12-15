@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var $ = gulpLoadPlugins();
+var babel = require('babelify');
 
 // Compile and automatically prefix stylesheets
 gulp.task('styles', () => {
@@ -37,20 +38,20 @@ gulp.task('styles', () => {
 });
 
 // Browserify
-gulp.task('browserify-direct', function () {
+gulp.task('browserify', () => {
     return gulp.src('public/client/DirectChatApp/main.js')
         .pipe($.browserify({
-          transform: ['hbsfy']
+          transform: ['hbsfy', babel]
         }))
         .pipe($.rename('direct_chat_app.js'))
         .pipe(gulp.dest('public/scripts'))
 });
 
 gulp.task('start', function () {
-    nodemon({
+    $.nodemon({
         script: 'pigeon.js', 
         ext: 'js html',
-        tasks: [''],
+        tasks: ['styles', 'browserify'],
         env: { 'NODE_ENV': 'development' }
     })
 });
