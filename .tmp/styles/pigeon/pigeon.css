@@ -2,11 +2,15 @@
  * Pigeon Chat Module
  *
  */
+ul {
+  list-style: none; }
+
 @-webkit-keyframes blink {
   0% {
     background: #333; }
   100% {
     background: #404040; } }
+
 @keyframes blink {
   0% {
     background: #333; }

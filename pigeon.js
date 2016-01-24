@@ -63,7 +63,7 @@ var redisSessionClient = redis.createClient(secrets.redisDb);
 redisSessionClient.select(1);
 var sessionStore = new RedisStore({prefix: 'pigeon:', client: redisSessionClient});
 redisSessionClient.on('connect', function () {
-    logger.info('65:', 'Connected to redis successfully!');
+    logger.info('Connected to redis successfully!');
 });
 
 
@@ -74,13 +74,13 @@ redisSessionClient.on('connect', function () {
 var mongoose = require('mongoose');
 mongoose.connect(secrets.db);
 mongoose.connection.on('connected', function () {
-    logger.info('75:', 'Connected to mongoDB successfully!');
+    logger.info('Connected to mongoDB successfully!');
 });
 mongoose.connection.on('error', function () {
-    logger.error('78:', 'MongoDB Connection Error. Please make sure that MongoDB is running.');
+    logger.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
 });
 mongoose.connection.on('disconnected', function () {
-    logger.warn('81:', 'Mongoose default connection disconnected');
+    logger.warn('Mongoose default connection disconnected');
 });
 
 

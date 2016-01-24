@@ -4,8 +4,11 @@ var gulp = require('gulp');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var $ = gulpLoadPlugins();
 var babel = require('babelify');
+var nodemon = require('nodemon');
+var browserSync = require('browser-sync');
 
-// Compile and automatically prefix stylesheets
+
+// Gulp Styles (compile sass with sourcemaps)
 gulp.task('styles', () => {
   var AUTOPREFIXER_BROWSERS = [
     'ie >= 10',
@@ -37,7 +40,8 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('public/styles'));
 });
 
-// Browserify
+
+// Gulp Browserify (compile javascript)
 gulp.task('browserify', () => {
     return gulp.src('public/client/DirectChatApp/main.js')
         .pipe($.browserify({
@@ -47,11 +51,36 @@ gulp.task('browserify', () => {
         .pipe(gulp.dest('public/scripts'))
 });
 
-gulp.task('start', function () {
-    $.nodemon({
-        script: 'pigeon.js', 
-        ext: 'js html',
-        tasks: ['styles', 'browserify'],
-        env: { 'NODE_ENV': 'development' }
-    })
+
+// Gulp BrowserSync ()
+gulp.task('browser-sync', ['nodemon'], () => {
+    browserSync.init(null, {
+        proxy: "http://localhost:2345",
+        files: ["public/**/*.*"],
+        browser: "google chrome",
+        port: 7000,
+    });
+
+    gulp.watch(['public/sass/**/*.{scss,css}'], ['styles', browserSync.reload]);
 });
+
+
+// Gulp Nodemon
+gulp.task('nodemon', function (cb) {
+    
+    var started = false;
+    
+    return nodemon({
+        script: 'pigeon.js'
+    }).on('start', function () {
+        // to avoid nodemon being started multiple times
+        // thanks @matthisk
+        if (!started) {
+            cb();
+            started = true; 
+        } 
+    });
+});
+
+
+gulp.task('default', ['browser-sync'], function () {});
