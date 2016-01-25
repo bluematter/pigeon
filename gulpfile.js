@@ -8,7 +8,7 @@ var nodemon = require('nodemon');
 var browserSync = require('browser-sync');
 
 
-// Gulp Styles (compile sass with sourcemaps)
+// Gulp Styles (compile sass and make source map)
 gulp.task('styles', () => {
   var AUTOPREFIXER_BROWSERS = [
     'ie >= 10',

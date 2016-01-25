@@ -1,11 +1,45 @@
-<div class="my-username" data-username="{{me.username}}">Welcome {{me.username}}</div>
+<!-- View for logged in user -->
 
-<div class="is--online">
-    <ul>
-    	{{#each friends}}
-    	    <li class="chat-with-friend-button" data-handle="{{this.username}}">{{this.username}}</li>
-    	{{/each}}
-    </ul>
+<header id="header">
+    <div class="my-username" data-username="{{me.username}}">Welcome {{me.username}}</div>
+</header>
+
+<div id="body">
+	<aside id="sidebar">
+	    <div class="is--online">
+	        <ul>
+	        	{{#each friends}}
+	        	    <li class="chat-with-friend-button" data-handle="{{this.username}}">{{this.username}}</li>
+	        	{{/each}}
+	        </ul>
+	    </div>
+	</aside>
+    <main id="chat">
+        <div class="messages">
+        	
+        	<article class="message">
+        		<div class="inner-contents">
+        			Hello World
+        		</div>
+        	</article>
+
+        	<article class="message">
+        		<div class="inner-contents">
+        			Hello World
+        		</div>
+        	</article>
+
+        	<article class="message">
+        		<div class="inner-contents">
+        			Hello World
+        		</div>
+        	</article>
+        	
+        </div>
+        <div class="message-input">
+        	<input type="text" placeholder="Type...">
+        </div>
+    </main>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

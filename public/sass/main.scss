@@ -6,14 +6,13 @@
 @import '_h5bp';
 
 /*
- * Bootstrap        
- */
-@import 'bootstrap-sass/assets/stylesheets/_bootstrap'; 
-
-/*
  * Pigeon Styles        
  */
 @import 'pigeon/pigeon';
+
+* {
+  box-sizing: border-box;
+}
 
 html,
 body {
@@ -27,8 +26,6 @@ body {
   position: relative;
   font-family: myriad-pro, sans-serif, helvetica,arial,sans-serif;
   font-size: 14px;
-  font-weight: normal;
-  background-color: #f1f1f1;
   color: #404040;
   box-sizing: border-box;
   min-height: 100%;

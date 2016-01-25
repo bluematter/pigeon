@@ -1,0 +1,1 @@
+{"version":3,"sources":["pigeon/layout/body.css"],"names":[],"mappings":"AAAA,MACE,MAAO,KACP,YAAa,KACb,OAAQ","file":"pigeon/layout/body.css","sourcesContent":["#body {\n  color: #333;\n  padding-top: 50px;\n  height: 100vh; }\n"],"sourceRoot":"/source/"}

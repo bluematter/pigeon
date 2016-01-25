@@ -1,1 +1,8 @@
+// layout
+@import 'layout/header';
+@import 'layout/body';
+@import 'layout/sidebar'; 
+
+// modules
 @import 'modules/chat';
+@import 'modules/chat-docker';

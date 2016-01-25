@@ -1,0 +1,134 @@
+/**
+ * Pigeon Chat Module
+ *
+ */
+
+ ul
+ {
+   list-style: none;
+ }
+
+$colorBrand: #00CCD2;
+$dockerHeight: 310px;
+
+@keyframes blink {
+  0% {
+    background: #333;
+  }
+  100% {
+    background: #404040;
+  }
+}
+
+// pigeon chat
+
+.pigeon-chat-docker{
+  bottom: 0;
+  direction: ltr;
+  height: 25px;
+  left: 0;
+  position: fixed;
+  right: 205px;
+  z-index: 300;
+
+  .directMessage--view {
+    position: fixed;
+    right: 200px;
+    border-radius: 3px;
+    overflow: hidden;
+    bottom: 0;
+    height: $dockerHeight;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    border-color: #d8d8d8;
+    border-width: 0 1px;
+    width: 280px;
+    z-index: 300;
+    
+    &.minimized {
+      transition: 0.5s bottom ease-in-out;
+      bottom: -($dockerHeight - 26);
+    }
+
+    // needs math formula offsets the chat box
+    &:nth-child(1) {
+      right: 200px;
+    }
+    &:nth-child(2) {
+      right: 530px;
+    }
+    &:nth-child(3) {
+      right: 860px;
+    }
+    
+    // header
+
+    .direct-message-header {
+      background-color: #293239;
+      padding: 3px 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &.blink-notify {
+        animation-name: blink;
+        animation-duration: .8s; 
+        animation-timing-function: ease-in-out; 
+        animation-delay: 0;
+        animation-direction: alternate;
+        animation-iteration-count: infinite;
+        animation-fill-mode: none;
+        animation-play-state: running; 
+      }
+      .online-status.online {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        background-color: #17e833;
+      }
+      .close-chat, .minimize-chat {
+        cursor: pointer;
+        display: inline-block;
+      }
+    }
+    
+    // body
+
+    .direct-message-body {
+      background-color: #fff;
+      height: $dockerHeight - 50;
+      width: 100%;
+      padding: 10px;
+      overflow-y: scroll;
+      ul.no-list-style {
+        margin: 0;
+        padding: 0;
+      }
+      .message {
+        padding: 6px 0;
+        .time-stamp {
+          color: rgba(0, 0, 0, 0.26);
+          font-size: 11px;
+          font-family: arial;
+          font-weight: bold;
+        }
+      }
+    }
+    
+    // footer
+
+    .direct-message-input {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      .chat-input {
+        display: flex;
+        input {
+          outline: 0;
+        }
+      }
+    }
+
+  }
+}
