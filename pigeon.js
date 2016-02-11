@@ -140,20 +140,6 @@ app.use('/public', express.static(__dirname + '/public'));
 require('./routes')(app, redisSessionClient);
 
 /**
- * SSL Config
- */
-// var certsPath = path.join(__dirname, 'ssl');
-// var privateKey = fs.readFileSync('./ssl/xygaming.com.key').toString();
-// var certificate = fs.readFileSync('./ssl/xygaming.com.crt').toString();
-// var ca = fs.readFileSync('./ssl/gd_bundle-g2-g1.crt').toString();
-
-// var express_options = {
-//     key: privateKey,
-//     cert: certificate,
-//     ca: ca,
-// };
-
-/**
  * Start Express server.
  */
 
