@@ -3,7 +3,7 @@
 } ('Pigeon', this, function() {
 
 	var Pigeon = {};
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -18,6 +18,10 @@
 
 		get: function(url, success, error) {
 			httpHelper('GET', url, success, error);
+		},
+
+		post: function() {
+			httpHelper('POST')
 		}
 
 	};
@@ -56,21 +60,7 @@
 
 	var Model = Pigeon.Model = function() {};
 
-	
-	/*
-	|--------------------------------------------------------------------------
-	| Pigeon View
-	|--------------------------------------------------------------------------
-	|
-	| View that is constructed based on the Models passed in.
-	|
-	*/
 
-	var View = Pigeon.View = function(obj) {
-		obj.initialize.call(this);
-	};
-
-	
 	/*
 	|--------------------------------------------------------------------------
 	| Pigeon Collection
@@ -81,16 +71,34 @@
 	*/
 
     var Collection = Pigeon.Collection = function(models) {};
-
-    Collection.prototype.fetch = function() {
+    
+    Collection.prototype.fetch = function(success, error) {
+    	var collection = [];
     	$http.get('/api/players', function(res) {
-    		console.log('Model Class', Model);
-    		console.log('Server Response', res);
-    		res.forEach(function(model) {
-    			console.log('Array Item', model);
+    		res.forEach(function(model, i) {
+    			collection.push(new Model());
     		});
+    		success(collection);
+    	}, function(res) {
+    		error(res);
     	});
     };
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Pigeon View
+	|--------------------------------------------------------------------------
+	|
+	| View that is constructed based on the Models passed in.
+	|
+	*/
+
+	var View = Pigeon.View = function(obj) {
+		if (typeof obj.initialize === 'function') {
+	        obj.initialize.call(this);
+	    }
+	};
 
 	
 	/*

@@ -20,7 +20,7 @@ var User = require('../models/User');
  * @api public
  */
 
-function Routes (app, redisSessionClient) {
+function Routes(app, redisSessionClient) {
   
   /*
    * UI Routes

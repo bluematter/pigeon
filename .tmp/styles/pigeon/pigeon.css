@@ -27,9 +27,7 @@
     #chat .messages article.message .inner-contents {
       background-color: #fff;
       border-radius: 2px;
-      padding: 8px;
-      -webkit-transform: scale(1);
-              transform: scale(1); }
+      padding: 8px; }
   #chat .message-input {
     display: -webkit-flex;
     display: -ms-flexbox;
