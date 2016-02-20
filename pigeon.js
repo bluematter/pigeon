@@ -16,12 +16,9 @@ var multer = require('multer');
 var passport = require('passport');
 var _ = require('lodash');
 var flash = require('express-flash');
-var path = require('path');
 var expressValidator = require('express-validator');
 var exphbs = require('express-handlebars');
 var path = require('path');
-var fs = require('fs');
-var https = require('https');
 var exphbs  = require('express-handlebars');
 
 var checkip = require('check-ip-address');
@@ -115,6 +112,7 @@ app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
 app.use(cors(corsOptions));
+app.use(errorHandler());
 app.use(session({
   secret: secrets.sessionSecret,
   resave: true,
@@ -143,37 +141,9 @@ require('./routes')(app, redisSessionClient);
  * Start Express server.
  */
 
-var server;
-
-var is_https = false;
-
-if (!is_https) {
-    server = app.listen(app.get('port'), function () {
-        logger.info('152:', 'Express server listening on port %d using HTTP in %s mode', app.get('port'), app.get('env'));
-    });
-} else {
-    server = https.createServer(express_options);
-    checkip.getExternalIp().then(function (ip) {
-
-        var ip = '';
-        var host = ip || 'symfony.xygaming.com';
-
-        function listen(input_app) {
-            logger.debug('Express server listening on port %d using HTTPS in %s mode', input_app.get('port'), input_app.get('env'));
-            server.on('request', input_app);
-            server.listen(input_app.get('port'), function () {
-                port = server.address().port;
-                logger.debug('Listening on https://127.0.0.1:' + port);
-                logger.debug('Listening on https://symfony.xygaming.com:' + port);
-                if (ip) {
-                    logger.debug('Listening on https://' + ip + ':' + port);
-                }
-            });
-        }
-
-        listen(app);
-    });
-}
+var server = app.listen(app.get('port'), function () {
+    logger.info('Express server listening on port '+app.get('port'), app.get('env'));
+});
 
 /*
  * Socket.io
@@ -181,24 +151,10 @@ if (!is_https) {
 
 var socket_server = require('./sockets')(server, redis, redisSessionClient);
 
-//console.log(socket_server);
-//function setTestAuthentication() {
-    //socket_server.setTestAuthentication();
-//}
-/**
- * Error Handler.
- */
-app.use(errorHandler());
-
 /**
  * Exports
  */
-module.exports = function(options) {
-    if(options.test === true) {
-        socket_server.setTestAuthentication();
-    };
-    return app;
-}
+module.exports = app;
 
 exports.listen = function () {
     server.listen.apply(this.server, arguments);

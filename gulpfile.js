@@ -64,7 +64,6 @@ gulp.task('browser-sync', ['nodemon'], () => {
     gulp.watch(['public/sass/**/*.{scss,css}'], ['styles', browserSync.reload]);
 });
 
-
 // Gulp Nodemon
 gulp.task('nodemon', function (cb) {
     
@@ -78,9 +77,11 @@ gulp.task('nodemon', function (cb) {
         if (!started) {
             cb();
             started = true; 
-        } 
+        } else {
+            //browserSync.reload
+        }
     });
 });
 
 
-gulp.task('default', ['browser-sync'], function () {});
+gulp.task('default', ['nodemon'], function () {});

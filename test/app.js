@@ -28,21 +28,12 @@ var io_options = {
 var socketURL = 'http://localhost:3000';
 
 describe("Chat Server", function () {
-    //var server = http.createServer().listen(0),
-        //redisSessionClient = fakeRedis.createClient('testSession'),
-        //redis = fakeRedis.createClient('testPubSub');
 
 
     before(function () {
-        //socketio(server, redis, redisSessionClient);
     });
 
     beforeEach(function () {
-        //redisSessionClient.set('xy_gaming:80l9vo0jch8h1uq8lraagcv077',
-        // '_sf2_attributes|a:4:{s:18:"_csrf/authenticate";s:43:"kE_njB_G-iDsjp200suLN1TI52EqeCwGegpn_pKUGPA";s:8:"username";s:5:"UserD";s:14:"_security_main";s:832:"C:74:"Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken":744:{a:3:{i:0;N;i:1;s:4:"main";i:2;s:704:"a:4:{i:0;C:31:"XYGaming\UserBundle\Entity\User":357:{a:13:{i:0;s:88:"bNPcFC1Q+JSGc4nX6DvpqnxSd36NLqOdi+rjTbn2k25Ndzdzn0mD2XDFzRMPhRVBAn+SxS2jgknL+lqGd0tNHw==";i:1;s:31:"cg9h4kqvdr4gk880w44g4kcg4gckwwg";i:2;s:16:"bob@xygaming.com";i:3;s:16:"bob@xygaming.com";i:4;b:0;i:5;b:0;i:6;b:0;i:7;b:1;i:8;s:36:"a430b61d-5826-11e5-8c37-0a0027000000";i:9;N;i:10;N;i:11;s:16:"bob@xygaming.com";i:12;s:16:"bob@xygaming.com";}}i:1;b:1;i:2;a:2:{i:0;O:41:"Symfony\Component\Security\Core\Role\Role":1:{s:47:"');
-        //redisSessionClient.set('xy_gaming:l6nsudcfpomngafq1efsbais52',
-        // '_sf2_attributes|a:4:{s:18:"_csrf/authenticate";s:43:"orXljaJVaHs8aC6gnJe5bEuBhME0xGW6FafVZ1mxeuY";s:8:"username";s:7:"KiwiRaz";s:14:"_security_main";s:860:"C:74:"Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken":772:{a:3:{i:0;N;i:1;s:4:"main";i:2;s:732:"a:4:{i:0;C:31:"XYGaming\UserBundle\Entity\User":385:{a:13:{i:0;s:88:"agYuIiPMGaQsN9aO/HNEGbsV3A7/i7i4XgFOO31vnvKpwwGXymUl2btymC5lXI9OlTQlaBNpSldsTIAH40ZS7Q==";i:1;s:31:"burqi1j9npk4w8cswckk8og4s4sggo8";i:2;s:23:"james@beamish-white.com";i:3;s:23:"james@beamish-white.com";i:4;b:0;i:5;b:0;i:6;b:0;i:7;b:1;i:8;s:36:"a423ba4d-5826-11e5-8c37-0a0027000000";i:9;N;i:10;N;i:11;s:23:"james@beamish-white.com";i:12;s:23:"james@beamish-white.com";}}i:1;b:1;i:2;a:2:{i:0;O:41:"Symfony\Component\Security\Core\Role\Role":1:{s:47:"');
-
     });
 
     afterEach(function () {
