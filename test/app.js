@@ -1,6 +1,6 @@
 // Test the app, executed from command line 'mocha'
 
-var app = require('../xygaming-server.js')({ test: true });
+var app = require('../pigeon.js')({ test: true });
 
 
 var request = require('supertest')
@@ -8,60 +8,22 @@ var request = require('supertest')
     , fs = require('fs')
     , assert = require('assert')
     , http = require('http')
-    , chai = require('chai')
-    //, newXhr = require('socket.io-client-cookie')
-    //, cookie = require('cookie')
-    //, httprequest = require('request');
+    , chai = require('chai');
 ;
 var should = chai.should
     , expect = chai.expect
-    , assert = chai.assert
-    ;
-
-var privateKey = fs.readFileSync('./ssl/xygaming.com.key').toString();
-var certificate = fs.readFileSync('./ssl/xygaming.com.crt').toString();
-var cacert = fs.readFileSync('./ssl/gd_bundle-g2-g1.crt').toString();
+    , assert = chai.assert;
 
 
 // Set the cookie and only then set up ioclient
 //newXhr.setCookies('PHPSESSID=l6nsudcfpomngafq1efsbais52');
 var ioclient = require('socket.io-client');
 
-// describe('Session Authentication', function() {
-//   it('should store redis session inside req object', function(done) {
-//     request(app)
-//       .get('/')
-//       .expect(200, done);
-//   });
-// });
-
-describe("Provides HTTPS only", function () {
-
-    describe("HTTPS response", function () {
-
-        it("returns status 404", function (done) {
-            var agent = request.agent(app);
-
-            agent
-                .get('/')
-                .ca(certificate)
-                .end(function (err, res) {
-                    assert.equal(404, res.status);
-                    assert.equal('Cannot GET /\n', res.text);
-                    done();
-                });
-        });
-    });
-});
-
 var io_options = {
     //transports: ['websocket'],
     'force new connection': true,
     "connect timeout": 4000
 };
-
-//var fakeRedis = require('fakeredis');
-    //, socketio = require('../sockets');
 
 var socketURL = 'http://localhost:3000';
 
