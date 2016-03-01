@@ -43,5 +43,6 @@ A full fledge open source chat application, includes rooms, 1on1, spam filtering
     var StartChat = function() {
       chatBoxView.render();
     };
-
+    
+    // Eventually you just call this
     StartChat();
