@@ -5,12 +5,14 @@
 
 	.messages {
 
-		article.message {
+		.message {
 			padding: 15px;
-			.inner-contents {
+			li {
 				background-color: #fff;
 				border-radius: 2px;
 				padding: 8px;
+				margin-bottom: 15px;
+				list-style: none;
 			}
 		}
 		

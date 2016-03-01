@@ -15,27 +15,7 @@
 	    </div>
 	</aside>
     <main id="chat">
-        <div class="messages">
-        	
-        	<article class="message">
-        		<div class="inner-contents">
-        			Hello World
-        		</div>
-        	</article>
-
-        	<article class="message">
-        		<div class="inner-contents">
-        			Hello World
-        		</div>
-        	</article>
-
-        	<article class="message">
-        		<div class="inner-contents">
-        			Hello World
-        		</div>
-        	</article>
-        	
-        </div>
+        <div class="messages"></div>
         <div class="message-input">
         	<input type="text" placeholder="Type...">
         </div>
@@ -44,8 +24,11 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="public/scripts/pigeon.js"></script>
+<script src="public/scripts/chatApp.js"></script>
 
 <script>
+
 	// do pigeon here
+    StartChat();
+
 </script>
-{{!-- <script src="public/scripts/direct_chat_app.js"></script> --}}

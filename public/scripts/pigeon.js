@@ -6,6 +6,7 @@
 } ('Pigeon', this, function() {
 
     var Pigeon = {}; // coo coo
+    //var socket = io.connect(ChatParameters.url_base, {'connect timeout': 10000});
 
     /*
     |--------------------------------------------------------------------------
@@ -94,8 +95,20 @@
     |
     */
 
+    // Collection of Models
     var Collection = Pigeon.Collection = function(object) {
+      var self = this;
+      this.collection = object;
+      this.data = (function() {
+        var collection = [];
+        for(var i=0; i < self.collection.data.length; i++) {
+          collection.push(new Model(self.collection.data[i]));
+        }
+        return collection;
+      })();
+      if (object.url) {
         this.url = object.url; // set collection url within constructor
+      }
     };
     
     // fetch data... prototype method for newly created instances
@@ -122,23 +135,9 @@
     |
     */
 
-    // var View = Pigeon.View = function(object) {
-    //     var self = this;
-    //     if (typeof object.initialize === 'function') {
-    //         object.initialize.call(this); // trigger initialize method when instantiated
-    //     }
-    //     this.element = document.querySelector(object.element); // define main view element within constructor
-    //     object.models.forEach(function(model) {
-    //         var listItem = document.createElement('li'); // create a list item
-    //         listItem.appendChild(document.createTextNode(model.get('name'))); // create a list item node
-    //         self.render = self.element.appendChild(listItem); // render list item data inside the main view element
-    //     });
-    // };
-
     var View = Pigeon.View = function(object) {
       
-      // TODO: Needs to handle a collection of data
-
+      // store this for scoping
       var self = this;
       
       // define the view
@@ -151,14 +150,19 @@
         this.viewEl.id = this.view.id; // set a wrapping id
       }
       if(this.view.class) {
-        this.viewEl.class = this.view.class; // set a wrapping class
+        this.viewEl.classList.add(this.view.class) // set a wrapping class
       }
       
       // create the main view element
       this.element = this.targetEl.appendChild(this.viewEl);
       
       // set the view model
-      this.model = this.view.model; // the view model
+      if (this.view.model) {
+        this.model = this.view.model; // the view model
+      }
+      if (this.view.collection) {
+        this.collection = this.view.collection; // a collection of models
+      }
       
       // view listener
       this.listenTo = function(listener, model) {

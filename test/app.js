@@ -3,16 +3,16 @@
 var app = require('../pigeon.js')({ test: true });
 
 
-var request = require('supertest')
-    , expect = require("expect")
-    , fs = require('fs')
-    , assert = require('assert')
-    , http = require('http')
-    , chai = require('chai');
-;
-var should = chai.should
-    , expect = chai.expect
-    , assert = chai.assert;
+var request = require('supertest');
+var expect = require("expect");
+var fs = require('fs');
+var assert = require('assert');
+var http = require('http');
+var chai = require('chai');
+
+var should = chai.should;
+var expect = chai.expect;
+var assert = chai.assert;
 
 
 // Set the cookie and only then set up ioclient
