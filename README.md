@@ -1,6 +1,6 @@
 ![pigeon-intro](https://cloud.githubusercontent.com/assets/1669104/13193480/dec8503a-d72d-11e5-8284-bb84ff5254bf.png)
 
-# pigeon
+# Pigeon
 A full fledge open source chat application, includes rooms, 1on1, spam filtering, and much more. This is a work in progress, I have some cool ideas for this project it just needs time.
 
 ## Getting started - Beta
