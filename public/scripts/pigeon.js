@@ -1,6 +1,6 @@
 (function(Pigeon, root, factory) {
 
-    // attaches the annonymous function to the window
+    // attaches the annonymous function below to the window (I think)
     root[Pigeon] = factory();
 
 } ('Pigeon', this, function() {
@@ -12,7 +12,9 @@
     | $http ajax
     |--------------------------------------------------------------------------
     |
-    | $http object that makes getting data from the server easier.
+    | $http object that makes getting data from the server easier. This will
+    | act as a service, call this whenever you need to make a network call.
+    | There are two HTTP methods, GET and POST.
     |
     */
 
@@ -57,17 +59,27 @@
     |--------------------------------------------------------------------------
     |
     | Model, this class needs a JSON object passed into the constructor it is 
-    | the data that defines it's attributes.
+    | the data that defines it's attributes. There are two methods, one to set
+    | data on the model which will update the view. The other is to get data
+    | on the model.
     |
     */
 
-    var Model = Pigeon.Model = function(model) {
-        this.attributes = model; // set model attributes within constructor
+    var Model = Pigeon.Model = function(object) {
+        this.attributes = object; // set model attributes within constructor
     };
 
-    // get attribute... prototype method to get data from a model directly
-    Model.prototype.get = function(attribute) {
-        return this.attributes[attribute];
+    Model.prototype.set = function(object) {
+        
+        // TODO: Make sure only one k:v is supplied
+        var key = Object.keys(object)[0];
+        var val = object[key];
+        this.attributes[key] = val; // set the new value
+
+    };
+
+    Model.prototype.get = function(object) {
+        return this.attributes[object]; // return desired attribute
     };
 
 
@@ -110,18 +122,65 @@
     |
     */
 
+    // var View = Pigeon.View = function(object) {
+    //     var self = this;
+    //     if (typeof object.initialize === 'function') {
+    //         object.initialize.call(this); // trigger initialize method when instantiated
+    //     }
+    //     this.element = document.querySelector(object.element); // define main view element within constructor
+    //     object.models.forEach(function(model) {
+    //         var listItem = document.createElement('li'); // create a list item
+    //         listItem.appendChild(document.createTextNode(model.get('name'))); // create a list item node
+    //         self.render = self.element.appendChild(listItem); // render list item data inside the main view element
+    //     });
+    // };
+
     var View = Pigeon.View = function(object) {
-        var self = this;
-        if (typeof object.initialize === 'function') {
-            object.initialize.call(this); // trigger initialize method when instantiated
-        }
-        this.element = document.querySelector(object.element); // define main view element within constructor
-        object.models.forEach(function(model) {
-            var listItem = document.createElement('li'); // create a list item
-            listItem.appendChild(document.createTextNode(model.get('name'))); // create a list item node
-            self.render = self.element.appendChild(listItem); // render list item data inside the main view element
+      
+      // TODO: Needs to handle a collection of data
+
+      var self = this;
+      
+      // define the view
+      this.view = object; // the view constructor object
+      this.targetEl = document.querySelector(this.view.element); // the view target el
+      this.viewEl = document.createElement('div');
+      
+      // set view wrapper id or class
+      if(this.view.id) {
+        this.viewEl.id = this.view.id; // set a wrapping id
+      }
+      if(this.view.class) {
+        this.viewEl.class = this.view.class; // set a wrapping class
+      }
+      
+      // create the main view element
+      this.element = this.targetEl.appendChild(this.viewEl);
+      
+      // set the view model
+      this.model = this.view.model; // the view model
+      
+      // view listener
+      this.listenTo = function(listener, model) {
+        Object.observe(model.attributes, function(changes) {
+          self.render(); // change detected re-render
         });
+      }
+      
+      // TODO: Create an events class or something this.element should be the desired el inside view
+      // handle view events
+      var event = Object.keys(this.view.events)[0];
+      var method = this.view.events[event];
+      this.element.addEventListener(event, function(event) {
+        self.view[method](self);
+      }, false);
+
+      
     };
+
+    View.prototype.render = function() {
+      this.view.render.call(this); // call render when needed
+    }
 
     
     /*
