@@ -81,10 +81,10 @@ function Routes(app, redisSessionClient) {
   |--------------------------------------------------------------------------
   */
 
-  app.get('/api/players/', function(req, res) {
+  app.get('/api/messages/', function(req, res) {
     res.json([
-      { name: 'Mike', points: 33 }, 
-      { name: 'Shaq', points: 16 }
+      { message: 'Hey Mike' }, 
+      { message: 'Good job with this project so far, keep making it better' }
     ]);
   });
 

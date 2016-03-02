@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node pigeon.js",
-    "test": "mocha"
+    "test": "mocha test/pigeon.test.js -w"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

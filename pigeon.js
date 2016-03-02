@@ -120,7 +120,7 @@ app.use(session({
   store: new RedisStore({
     prefix: 'pigeon:', 
     client: redisSessionClient
-})
+  })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

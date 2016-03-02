@@ -233,6 +233,8 @@ function Sockets(server, redis, redisSessionClient) {
         // listen for the client to send a message
         socket.on('send oneOnOneMessage', function (data) {
 
+            console.log('Dummy Test', data);
+
             var chattingWith = data.chattingWith;
             var chatID = data.chatID;
 

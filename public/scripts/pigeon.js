@@ -6,7 +6,7 @@
 } ('Pigeon', this, function() {
 
     var Pigeon = {}; // coo coo
-    //var socket = io.connect(ChatParameters.url_base, {'connect timeout': 10000});
+    var clientSocket = io.connect('localhost:2345', {'connect timeout': 10000});
 
     /*
     |--------------------------------------------------------------------------
@@ -53,6 +53,32 @@
         xmlhttp.send();
     };
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | $clientSocket socket
+    |--------------------------------------------------------------------------
+    |
+    | $clientSocket object that makes socket communication to the server easier.
+    | Whenever the app needs to emit a message that particular part of the app 
+    | can use the $clientSocket service that has simple concise methods. 
+    |
+    */
+
+    var $clientSocket = {
+
+      sendMessgae: function() {
+        clientSocket.emit('send oneOnOneMessage', {
+          message: 'dummy message',
+          timeStamp: 'dummyTimeStamp',
+          chattingWith: 'dummyTo',
+          chatID: 'dummyID'
+        });
+      },
+      gotMessage: function() {}
+
+    }
+
     
     /*
     |--------------------------------------------------------------------------
@@ -76,11 +102,12 @@
         var key = Object.keys(object)[0];
         var val = object[key];
         this.attributes[key] = val; // set the new value
+        console.log(this.attributes)
 
     };
 
-    Model.prototype.get = function(object) {
-        return this.attributes[object]; // return desired attribute
+    Model.prototype.get = function(attribute) {
+        return this.attributes[attribute]; // return desired attribute
     };
 
 
@@ -97,31 +124,52 @@
 
     // Collection of Models
     var Collection = Pigeon.Collection = function(object) {
+
       var self = this;
+
+      // collection definition
       this.collection = object;
-      this.data = (function() {
-        var collection = [];
-        for(var i=0; i < self.collection.data.length; i++) {
-          collection.push(new Model(self.collection.data[i]));
-        }
-        return collection;
-      })();
+
+      // set collection remote url
       if (object.url) {
         this.url = object.url; // set collection url within constructor
       }
+
+      // set collection data
+      if(this.collection.data) {
+        this.data = (function() {
+          var collection = [];
+          for(var i=0; i < self.data.length; i++) {
+            collection.push(new Model(self.data[i]));
+          }
+          return collection;
+        })();
+      }
+
     };
     
     // fetch data... prototype method for newly created instances
     Collection.prototype.fetch = function(success, error) {
+      var self = this;
         $http.get(this.url, function(res) {
             var collection = [];
             res.forEach(function(model) {
                 collection.push(new Model(model));
             });
-            success(collection); // returns an array of pigeon models
+            self.data = collection;
+            success(self.data); // returns an array of pigeon models
         }, function(res) {
             error(res);
         });
+    };
+
+    // add a new model to the collection
+    Collection.prototype.add = function(model, view) {
+
+      // TODO: I don't like this, I need a way to re-render the view anytime the 
+      // collection associated with the view changes, not just in this method..
+      //view.render();
+      this.data.push(model);
     };
 
 
@@ -165,10 +213,14 @@
       }
       
       // view listener
-      this.listenTo = function(listener, model) {
-        Object.observe(model.attributes, function(changes) {
-          self.render(); // change detected re-render
-        });
+      this.listenTo = function(listener, data) {
+        var arr = data || [];
+        for(var i=0; i < arr.length; i++) {
+          var item = arr[i];
+          Object.observe(item.attributes, function(changes){
+            self.render(); // changes re render
+          });
+        }
       }
       
       // TODO: Create an events class or something this.element should be the desired el inside view
@@ -179,24 +231,17 @@
         self.view[method](self);
       }, false);
 
+      // messaging
+      this.view.send = function() {
+        $clientSocket.sendMessgae();
+      };
+
       
     };
 
     View.prototype.render = function() {
       this.view.render.call(this); // call render when needed
     }
-
-    
-    /*
-    |--------------------------------------------------------------------------
-    | Pigeon Controller
-    |--------------------------------------------------------------------------
-    |
-    | Controller, not sure how to use yet.
-    |
-    */
-
-    var Controller = Pigeon.Controller = function() {};
 
 
     return Pigeon;
