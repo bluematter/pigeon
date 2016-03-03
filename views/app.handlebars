@@ -16,9 +16,12 @@
 	</aside>
     <main id="chat">
         <div class="messages"></div>
-        <div class="message-input">
-        	<input type="text" placeholder="Type...">
-        </div>
+        <form class="messageForm">
+	        <div class="message-input">
+	        	<input class="messageData" type="text" placeholder="Type...">
+	        	<button class="sendMessage" type="submit">Send</button>
+	        </div>
+        </form>
     </main>
 </div>
 
@@ -29,6 +32,5 @@
 <script>
 
 	// do pigeon here
-    StartChat();
-
+	
 </script>

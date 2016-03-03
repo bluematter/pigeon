@@ -68,10 +68,10 @@ function Sockets(server, redis, redisSessionClient) {
 
     var room_names = ['users', 'warriors'];
 
-    _.each(room_names, function (room_name) {
-        var room = new Room(room_name);
-        rooms[room_name] = room;
-    });
+    // _.each(room_names, function (room_name) {
+    //     var room = new Room(room_name);
+    //     rooms[room_name] = room;
+    // });
 
     // authorize to see who the user is, relies on proper cookies
     io.set('authorization', function(handshake, callback) {
@@ -94,234 +94,235 @@ function Sockets(server, redis, redisSessionClient) {
                 return callback(null, session);
             });
         } else {
-            return callback('No cooies', false);
+            return callback('No cookies', false);
         }
     });
 
     // pub/sub adapter
-    io.adapter(redisIo({
-        host: 'localhost',
-        port: 6379,
-        pubClient: pub,
-        subClient: sub
-    }));
+    // io.adapter(redisIo({
+    //     host: 'localhost',
+    //     port: 6379,
+    //     pubClient: pub,
+    //     subClient: sub
+    // }));
     
     io.sockets.on('connection', function (socket) {
         
-        logger.info('FRESH USERNAME', socket.handshake.headers.pigeon.user.username)
+        logger.info('FRESH USERNAME', socket.handshake.headers.pigeon.user.username);
+
         // online tracking with redis
-        var userStatus = JSON.stringify({"online": true, "socketId": socket.id});
-        redisSessionClient.set("online:"+socket.handshake.headers.pigeon.user.username, userStatus);
+        //var userStatus = JSON.stringify({"online": true, "socketId": socket.id});
+        //redisSessionClient.set("online:"+socket.handshake.headers.pigeon.user.username, userStatus);
 
         // when a user connects announce to friends
-        socket.on("im online", function (data) {
-            if(data.myFriends != undefined) {
-                for(i=0;i<data.myFriends.length;i++) {
-                    io.to(users[data.myFriends[i].handle]).emit('online notification', data);
-                }
-            }
-        });
+        // socket.on("im online", function (data) {
+        //     if(data.myFriends != undefined) {
+        //         for(i=0;i<data.myFriends.length;i++) {
+        //             io.to(users[data.myFriends[i].handle]).emit('online notification', data);
+        //         }
+        //     }
+        // });
         
         // store the users & socket.id into objects
-        users[socket.handshake.headers.pigeon.user.username] = socket.id;
+        //users[socket.handshake.headers.pigeon.user.username] = socket.id;
 
         // track connected
-        connected[socket.handshake.headers.pigeon.user.username] = true;
-        people[socket.id] = {"name": socket.handshake.headers.pigeon.user.username, "inroom": null};
+        //connected[socket.handshake.headers.pigeon.user.username] = true;
+        //people[socket.id] = {"name": socket.handshake.headers.pigeon.user.username, "inroom": null};
 
-        var nickname = socket.handshake.headers.pigeon.user.username;
-        var messageStack = [];
+        //var nickname = socket.handshake.headers.pigeon.user.username;
+        //var messageStack = [];
 
-        socket.on("joinRoom", function (id) {
-            if (typeof people[socket.id] !== "undefined") {
-                if (typeof rooms[id] === 'undefined') {
-                    logger.debug("Invalid room name:" + id);
-                    socket.emit("update", "Invalid room name.");
-                } else {
-                    var room = rooms[id];
-                    logger.debug("Socket:" + socket.id + " trying to connect to roomID:" + id);
-                    logger.debug("Inroom is:");
-                    logger.debug(people[socket.id].inroom);
+        // socket.on("joinRoom", function (id) {
+        //     if (typeof people[socket.id] !== "undefined") {
+        //         if (typeof rooms[id] === 'undefined') {
+        //             logger.debug("Invalid room name:" + id);
+        //             socket.emit("update", "Invalid room name.");
+        //         } else {
+        //             var room = rooms[id];
+        //             logger.debug("Socket:" + socket.id + " trying to connect to roomID:" + id);
+        //             logger.debug("Inroom is:");
+        //             logger.debug(people[socket.id].inroom);
 
-                    if (_.contains((room.people), socket.id)) {
-                        socket.emit("update", "You have already joined this room.");
-                    } else {
-                        if (typeof(people[socket.id].inroom) !== 'undefined' && people[socket.id].inroom !== null) {
-                            socket.emit("update", "You are already in a room (" + rooms[people[socket.id].inroom].id + "), please leave it first to join another room.");
-                        } else {
-                            room.addPerson(socket.id);
-                            people[socket.id].inroom = id;
-                            socket.room = room.name;
-                            logger.debug("Adding user to roomID:" + id + ", joining socket:" + socket.room);
-                            socket.join(socket.room);
-                            user = people[socket.id];
+        //             if (_.contains((room.people), socket.id)) {
+        //                 socket.emit("update", "You have already joined this room.");
+        //             } else {
+        //                 if (typeof(people[socket.id].inroom) !== 'undefined' && people[socket.id].inroom !== null) {
+        //                     socket.emit("update", "You are already in a room (" + rooms[people[socket.id].inroom].id + "), please leave it first to join another room.");
+        //                 } else {
+        //                     room.addPerson(socket.id);
+        //                     people[socket.id].inroom = id;
+        //                     socket.room = room.name;
+        //                     logger.debug("Adding user to roomID:" + id + ", joining socket:" + socket.room);
+        //                     socket.join(socket.room);
+        //                     user = people[socket.id];
 
-                            logger.debug("Emitting 'new user' message for room_id:" + room.id);
-                            io.sockets.in(socket.room).emit("update", nickname + " has connected to " + room.id + " room.");
-                            socket.emit("update", "Welcome to " + room.id + " room.");
-                            socket.emit("sendRoomID", {id: id});
-                        }
-                    }
-                }
+        //                     logger.debug("Emitting 'new user' message for room_id:" + room.id);
+        //                     io.sockets.in(socket.room).emit("update", nickname + " has connected to " + room.id + " room.");
+        //                     socket.emit("update", "Welcome to " + room.id + " room.");
+        //                     socket.emit("sendRoomID", {id: id});
+        //                 }
+        //             }
+        //         }
 
-            } else {
-                socket.emit("update", "Please enter a valid name first.");
-            }
-        });
+        //     } else {
+        //         socket.emit("update", "Please enter a valid name first.");
+        //     }
+        // });
 
-        socket.on("leaveRoom", function (id) {
-            var room = rooms[id];
-            if (room)
-                purge(socket, "leaveRoom");
-        });
+        // socket.on("leaveRoom", function (id) {
+        //     var room = rooms[id];
+        //     if (room)
+        //         purge(socket, "leaveRoom");
+        // });
 
 
         // listen for the client to send a message
-        socket.on('send roomMessage', function (data) {
-            logger.debug("Received roomMessage");
-            logger.debug(data.message);
-            var no_empty = data.message.replace("\n", "");
-            if (no_empty.length > 0) {
+        // socket.on('send roomMessage', function (data) {
+        //     logger.debug("Received roomMessage");
+        //     logger.debug(data.message);
+        //     var no_empty = data.message.replace("\n", "");
+        //     if (no_empty.length > 0) {
 
-                // generate a message object
-                var message = {
-                    message_date: Date.now(),
-                    nickname: nickname,
-                    message: clearProfanity(data.message),
-                    timeStamp: data.timeStamp,
-                    room_id: data.room_id
-                };
+        //         // generate a message object
+        //         var message = {
+        //             message_date: Date.now(),
+        //             nickname: nickname,
+        //             message: clearProfanity(data.message),
+        //             timeStamp: data.timeStamp,
+        //             room_id: data.room_id
+        //         };
 
-                // check if messages are being spammed (must disable socket from specific chat module room)
-                if(socket.roomDisabled) {
-                    socket.emit('room suspension message', {message: 'You are suspended for a short time...', class: 'color--red'});
-                    clearTimeout(timeout);
-                    timeout = setTimeout(function () {
-                        socket.roomDisabled = false;
-                        socket.emit('room suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green'});
-                    }, 10000);
-                } else {
-                    if (rateLimit()) {
-                        logger.info('Message OK');
-                        // save the message inside mongodb
-                        var newMessage = new Message(message);
-                        newMessage.save(function(err, messageDocument) {
-                            if(err)
-                                logger.warn('failed to insert the message');
-                            logger.info('successfully saved message: ' + messageDocument._id);
-                            // emit the message to the room
-                            io.sockets.in(socket.room).emit('new roomMessage', message);
-                        });
-                    } else {
-                        if (socket.roomDisabled) {
-                        } else {
-                            logger.warn('Message Fail');
-                            socket.roomDisabled = true;
-                            socket.emit('room suspension message', {message: 'You are suspended for a short time...', class: 'color--red'});
-                            timeout = setTimeout(function () {
-                                socket.roomDisabled = false;
-                                socket.emit('room suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green'});
-                            }, 10000);
-                        }
-                    }
-                }
+        //         // check if messages are being spammed (must disable socket from specific chat module room)
+        //         if(socket.roomDisabled) {
+        //             socket.emit('room suspension message', {message: 'You are suspended for a short time...', class: 'color--red'});
+        //             clearTimeout(timeout);
+        //             timeout = setTimeout(function () {
+        //                 socket.roomDisabled = false;
+        //                 socket.emit('room suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green'});
+        //             }, 10000);
+        //         } else {
+        //             if (rateLimit()) {
+        //                 logger.info('Message OK');
+        //                 // save the message inside mongodb
+        //                 var newMessage = new Message(message);
+        //                 newMessage.save(function(err, messageDocument) {
+        //                     if(err)
+        //                         logger.warn('failed to insert the message');
+        //                     logger.info('successfully saved message: ' + messageDocument._id);
+        //                     // emit the message to the room
+        //                     io.sockets.in(socket.room).emit('new roomMessage', message);
+        //                 });
+        //             } else {
+        //                 if (socket.roomDisabled) {
+        //                 } else {
+        //                     logger.warn('Message Fail');
+        //                     socket.roomDisabled = true;
+        //                     socket.emit('room suspension message', {message: 'You are suspended for a short time...', class: 'color--red'});
+        //                     timeout = setTimeout(function () {
+        //                         socket.roomDisabled = false;
+        //                         socket.emit('room suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green'});
+        //                     }, 10000);
+        //                 }
+        //             }
+        //         }
 
-            }
+        //     }
 
-        });
+        // });
 
         // listen for the client to send a message
         socket.on('send oneOnOneMessage', function (data) {
 
-            console.log('Dummy Test', data);
+            io.emit('new oneOnOneMessage', data);
 
-            var chattingWith = data.chattingWith;
-            var chatID = data.chatID;
+            // var chattingWith = data.chattingWith;
+            // var chatID = data.chatID;
 
-            var no_empty = data.message.replace("\n", "");
-            if (no_empty.length > 0) {
+            // var no_empty = data.message.replace("\n", "");
+            // if (no_empty.length > 0) {
 
-                // generate a message object
-                var message = {
-                    message_date: Date.now(),
-                    nickname: data.myName,
-                    message: clearProfanity(data.message),
-                    timeStamp: data.timeStamp,
-                    chatID: chatID
-                };
+            //     // generate a message object
+            //     var message = {
+            //         message_date: Date.now(),
+            //         nickname: data.myName,
+            //         message: clearProfanity(data.message),
+            //         timeStamp: data.timeStamp,
+            //         chatID: chatID
+            //     };
 
-                // check if messages are being spammed
-                if(socket.directDisabled) {
-                    socket.emit('direct suspension message', {message: 'You are suspended for a short time...', class: 'color--red', chatID: chatID});
-                    clearTimeout(timeout);
-                    timeout = setTimeout(function () {
-                        socket.directDisabled = false;
-                        socket.emit('direct suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green', chatID: chatID});
-                    }, 10000);
-                } else {
-                    if (rateLimit()) {
-                        logger.info('Message OK');
-                        // check if the intended user exists TODO: need this to go both ways
-                        logger.info('(User name): '+nickname+' (User ID): '+socket.id+' chatting with (User name): '+chattingWith+' (User ID): '+ users[chattingWith]); 
-                        // save the message inside mongodb
-                        var newMessage = new Message(message);
-                        newMessage.save(function(err, messageDocument) {
-                            if(err)
-                                logger.info('failed to insert the message');
-                                logger.info('successfully saved message: ' + messageDocument._id);
-                            if(users[chattingWith]) {
-                                logger.info('The message is about to emit to '+ users[chattingWith]);
-                                io.to(users[chattingWith]).emit('new oneOnOneMessage', {message: clearProfanity(data.message), nickname: nickname, chatID: chatID });
-                            }
-                            socket.emit('new oneOnOneMessage', {message: clearProfanity(data.message), nickname: nickname, chatID: chatID });
-                        });
-                    } else {
-                        if (socket.directDisabled) {
-                        } else {
-                            socket.directDisabled = true;
-                            socket.emit('direct suspension message', {message: 'You are suspended for a short time...', class: 'color--red', chatID: chatID});
-                            timeout = setTimeout(function () {
-                                socket.directDisabled = false;
-                                socket.emit('direct suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green', chatID: chatID});
-                            }, 10000);
-                        }
-                    }
-                }
+            //     // check if messages are being spammed
+            //     if(socket.directDisabled) {
+            //         socket.emit('direct suspension message', {message: 'You are suspended for a short time...', class: 'color--red', chatID: chatID});
+            //         clearTimeout(timeout);
+            //         timeout = setTimeout(function () {
+            //             socket.directDisabled = false;
+            //             socket.emit('direct suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green', chatID: chatID});
+            //         }, 10000);
+            //     } else {
+            //         if (rateLimit()) {
+            //             logger.info('Message OK');
+            //             // check if the intended user exists TODO: need this to go both ways
+            //             logger.info('(User name): '+nickname+' (User ID): '+socket.id+' chatting with (User name): '+chattingWith+' (User ID): '+ users[chattingWith]); 
+            //             // save the message inside mongodb
+            //             var newMessage = new Message(message);
+            //             newMessage.save(function(err, messageDocument) {
+            //                 if(err)
+            //                     logger.info('failed to insert the message');
+            //                     logger.info('successfully saved message: ' + messageDocument._id);
+            //                 if(users[chattingWith]) {
+            //                     logger.info('The message is about to emit to '+ users[chattingWith]);
+            //                     io.to(users[chattingWith]).emit('new oneOnOneMessage', {message: clearProfanity(data.message), nickname: nickname, chatID: chatID });
+            //                 }
+            //                 socket.emit('new oneOnOneMessage', {message: clearProfanity(data.message), nickname: nickname, chatID: chatID });
+            //             });
+            //         } else {
+            //             if (socket.directDisabled) {
+            //             } else {
+            //                 socket.directDisabled = true;
+            //                 socket.emit('direct suspension message', {message: 'You are suspended for a short time...', class: 'color--red', chatID: chatID});
+            //                 timeout = setTimeout(function () {
+            //                     socket.directDisabled = false;
+            //                     socket.emit('direct suspension message', {message: 'It\'s been 10 seconds you may continue...', class: 'color--green', chatID: chatID});
+            //                 }, 10000);
+            //             }
+            //         }
+            //     }
 
-            }
+            // }
         });
 
-        socket.on('set status', function (data) {
-            var status = data.status;
-            io.sockets.emit('user-info update', {
-                username: nickname,
-                status: status
-            });
-        });
+        // socket.on('set status', function (data) {
+        //     var status = data.status;
+        //     io.sockets.emit('user-info update', {
+        //         username: nickname,
+        //         status: status
+        //     });
+        // });
 
-        socket.on('disconnect', function () {
-            logger.debug("Disconnecting from room, user:" + nickname + ", room_id:" + socket.room);
+        // socket.on('disconnect', function () {
+        //     logger.debug("Disconnecting from room, user:" + nickname + ", room_id:" + socket.room);
             
-            // so when the user refreshes or goes to another page we dont disconnect
-            connected[socket.handshake.headers.username] = false;
-            setTimeout(function () {
-                if(connected[socket.handshake.headers.username] === false) {
-                    logger.info('its been 10 seconds user is disconnected');
-                    redisSessionClient.set('online:'+socket.handshake.headers.username, '{"online": false}');
-                    socket.broadcast.emit('offline notification', {myHandle: socket.handshake.headers.username, online: false}); // announce who disconnected currently announces to ALL
-                    delete users[socket.handshake.headers.username];
-                }
-            }, 10000);
+        //     // so when the user refreshes or goes to another page we dont disconnect
+        //     connected[socket.handshake.headers.username] = false;
+        //     setTimeout(function () {
+        //         if(connected[socket.handshake.headers.username] === false) {
+        //             logger.info('its been 10 seconds user is disconnected');
+        //             redisSessionClient.set('online:'+socket.handshake.headers.username, '{"online": false}');
+        //             socket.broadcast.emit('offline notification', {myHandle: socket.handshake.headers.username, online: false}); // announce who disconnected currently announces to ALL
+        //             delete users[socket.handshake.headers.username];
+        //         }
+        //     }, 10000);
 
-            io.sockets.in(socket.room).emit('user leave', {nickname: nickname});
+        //     io.sockets.in(socket.room).emit('user leave', {nickname: nickname});
  
-            if (typeof people[socket.id] !== "undefined") { //this handles the refresh of the screen
-                purge(socket, "disconnect");
-            }
+        //     if (typeof people[socket.id] !== "undefined") { //this handles the refresh of the screen
+        //         purge(socket, "disconnect");
+        //     }
 
-            logger.debug("Disconnected, users now:");
-            logger.debug(users);
-        });
+        //     logger.debug("Disconnected, users now:");
+        //     logger.debug(users);
+        // });
 
     });
 

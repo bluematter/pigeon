@@ -5,16 +5,11 @@
 
 	.messages {
 
-		.message {
-			padding: 15px;
-			li {
-				background-color: #fff;
-				border-radius: 2px;
-				padding: 8px;
-				margin-bottom: 15px;
-				list-style: none;
-			}
-		}
+		padding: 15px 0;
+
+		// temp HACK
+		height: 80vh;
+		overflow: scroll;
 		
 	}
 

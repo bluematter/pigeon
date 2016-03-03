@@ -85,23 +85,6 @@ mongoose.connection.on('disconnected', function () {
  * Express configuration.
  */
 
-var origins = ['localhost', 'localhost:8000', '10.15.137.14:2345'];
-var protocols = ['http://', 'https://'];
-var whitelist = [];
-protocols.forEach(function(protocol) {
-    origins.forEach(function(origin) {
-        whitelist.push(protocol + origin);
-    });
-});
-
-var corsOptions = {
-    credentials: true,
-    origin: function (origin, callback) {
-        var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-        callback(null, originIsWhitelisted);
-    }
-};
-
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.set('port', process.env.PORT || 2345);
@@ -111,7 +94,7 @@ app.use(multer({dest: path.join(__dirname, 'uploads')}));
 app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(errorHandler());
 app.use(session({
   secret: secrets.sessionSecret,

@@ -82,10 +82,10 @@ function Routes(app, redisSessionClient) {
   */
 
   app.get('/api/messages/', function(req, res) {
-    res.json([
-      { message: 'Hey Mike' }, 
-      { message: 'Good job with this project so far, keep making it better' }
-    ]);
+    Message.find({}, function(err, messages) {
+      if(err) next();
+      res.json(messages);
+    });
   });
 
   /*
