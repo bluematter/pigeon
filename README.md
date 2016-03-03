@@ -8,41 +8,52 @@ A full fledge open source chat application, includes rooms, 1on1, spam filtering
     // Implementation Model
     var message = new Pigeon.Model({ body: 'hello' });
 
-    // Implementation View
-    var chatBoxView = new Pigeon.View({
-      element: '.messages',
-      id: 'chatBox',
-      model: message,
-      events: {
-        'click':'doClick'
-      },
-      render: function() {
-        
-        this.listenTo('change', this.model);
-        this.element.innerHTML = '<div class="model">'+this.model.get('body')+'</div>';
-        
-      },
-      doClick: function() {
+    // Implementation Collection
+    var messages = new Pigeon.Collection({
+      url: '/api/messages'
+    });
+
+    // handles a remote collection
+    messages.fetch(function(messages) {
       
-        // Custom test method
-        var messages = ['Good Day','Get Coffee','Read a book', 'Take a walk'];
-        var randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        
-        // update the model
-        this.model.set({
-          body: randomMessage
-        });
-        
-      }
-    }); // view instance
+      var chatBoxView = new Pigeon.View({
 
+        target: '.messages',
+        collection: messages,
+        events: [
+          { el: '.messageForm', type: 'submit', method: 'sendMessage'}
+        ],
 
+        initialize: function() {
+          this.listenTo('change', this.collection);
+          this.render();
+        },
 
+        render: function() {
+          var self = this;
+          this.element.innerHTML = '';
+          this.collection.data.forEach(function(model) {
+            var listItem = document.createElement('li'); // create a list item
+            listItem.classList.add('message');
+            listItem.appendChild(document.createTextNode(model.get('message')));
+            self.element.appendChild(listItem);
+          });
+        },
 
-    // Boot
-    var StartChat = function() {
-      chatBoxView.render();
-    };
-    
-    // Eventually you just call this
-    StartChat();
+        sendMessage: function(socket) {
+          
+          // bad we need a specific element not a general
+          var el = document.querySelector('.messageData');
+          var message = {'message': el.value};
+          //this.collection.add(new Pigeon.Model(message));
+          socket.socketMethods.sendMessage(message);
+          el.value = '';
+
+        }
+
+      });
+
+      // boot chat box
+      chatBoxView.initialize();
+
+    });
