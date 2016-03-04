@@ -1,0 +1,1 @@
+{"version":3,"sources":["pigeon/components/message.css"],"names":[],"mappings":"AAAA,SACE,iBAAkB,KAClB,cAAe,IACf,QAAS,KACT,OAAQ,KACR,WAAY","file":"pigeon/components/message.css","sourcesContent":[".message {\n  background-color: #fff;\n  border-radius: 2px;\n  padding: 15px;\n  margin: 15px;\n  list-style: none; }\n"],"sourceRoot":"/source/"}
